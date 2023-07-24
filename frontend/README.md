@@ -1,7 +1,9 @@
 ## Установка приложения
 
-yarn install - установка зависимостей yarn run postinstall - установка git hooks
+- yarn install - установка зависимостей
+- yarn run postinstall - установка git hooks
 
 ## Запуск и сборка приложения
 
-yarn run build - сборка итоговой версии приложения yarn run start - запуск клиентской части в режиме разработчика
+- yarn run build - сборка итоговой версии приложения
+- yarn run start - запуск клиентской части в режиме разработчика
