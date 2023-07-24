@@ -1,0 +1,11 @@
+dist
+coverage
+
+.editorconfig
+.eslintrc
+.eslintignore
+.gitignore
+.prettierignore
+
+src/images
+sonar-project.properties

@@ -1,0 +1,59 @@
+{
+  "root": true,
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "prettier",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react-hooks", "@typescript-eslint", "@tanstack/query"],
+  "env": { "browser": true, "es6": true },
+  "settings": {
+    "import/resolver": { "webpack": { "env": "development", "config": "webpack.config.js" } }
+  },
+  "globals": {
+    "JSX": true
+  },
+  "rules": {
+    "import/extensions": ["error", "always", { "ignorePackages": true, "pattern": { "ts": "never", "tsx": "never" } }],
+    "import/order": ["error", {
+      "groups": ["builtin", "external", "internal", "parent", "sibling"],
+      "pathGroups": [
+        { "pattern": "./*.scss", "group": "sibling", "position": "after" },
+      ],
+      "alphabetize": { "order": "asc", "caseInsensitive": true }
+    }],
+    "import/prefer-default-export": 0,
+    "lines-between-class-members": ["error", "always"],
+    "max-len": ["error", { "code": 120 }],
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
+    "no-trailing-spaces": "error",
+    "react/jsx-filename-extension": ["error", { "extensions": [".ts", ".tsx"] }],
+    "react/jsx-no-bind": ["error", { "ignoreRefs": true, "allowArrowFunctions": true, "allowFunctions": true, "allowBind": false }],
+    "react/jsx-props-no-spreading": 0,
+    "react/jsx-uses-react": 0,
+    "react/prop-types": 0,
+    "react/require-default-props": 0,
+    "react/react-in-jsx-scope": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    // Typescript
+    "no-shadow": 0,
+    "@typescript-eslint/no-shadow": "error",
+    "no-unused-vars": 0,
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error"
+  },
+  "overrides": [
+    {
+      "files": ["webpack.config.js"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": 0
+      }
+    }
+  ]
+}
