@@ -17,5 +17,9 @@ export const antdTheme: ThemeConfig = {
       buttonPaddingHorizontal: 10,
       controlHeight: 50,
     },
+    Typography: {
+      titleMarginBottom: 0,
+      fontWeightStrong: 500,
+    },
   },
 };
