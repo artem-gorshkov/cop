@@ -1,7 +1,14 @@
 'use client';
 
-import { Card } from 'antd';
+import { Button, Layout } from 'antd';
 
 export default function TestList() {
-  return <Card title="Test List">Example Content</Card>;
+  return (
+    <Layout hasSider className="fullHeight">
+      <Layout.Content>Тесты</Layout.Content>
+      <Layout.Sider width={500} className="fullHeight">
+        <Button>Вход преподавателя</Button>
+      </Layout.Sider>
+    </Layout>
+  );
 }
