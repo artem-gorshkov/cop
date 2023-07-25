@@ -1,0 +1,21 @@
+@import "styles/mixins";
+@import "styles/variables";
+
+.header {
+    color: white;
+    font-size: 128px;
+    line-height: unset;
+    height: $header-size;
+}
+
+.footer {
+    margin: 0 50px;
+    border-top: 2px solid black;
+    height: $footer-size;
+    text-align: center;
+}
+
+.content {
+    height: calc(100vh - $header-size - $footer-size);
+    padding: 50px 0;
+}
