@@ -6,6 +6,7 @@ export const antdTheme: ThemeConfig = {
     fontSize: 28,
     fontWeightStrong: 400,
     borderRadius: 0,
+    colorTextPlaceholder: 'black',
   },
   components: {
     Layout: {
