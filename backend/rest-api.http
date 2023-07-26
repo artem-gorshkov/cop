@@ -1,6 +1,6 @@
 ###
 
-# curl --location --request POST 'http://localhost:8080/api/tests'
+# curl --location --request POST 'http://localhost:8080/api/exams'
 #--header 'Content-Type: application/json'
 #--data-raw '{
 #    "name":"первый тест",
@@ -37,7 +37,7 @@
 #        }
 #    ]
 #}'
-POST http://localhost:8080/api/tests
+POST http://localhost:8080/api/exams
 Content-Type: application/json
 
 {

@@ -1,4 +1,4 @@
-package ru.mil.cop.test;
+package ru.mil.cop.exam;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,8 +15,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "tests")
-public class TestEntity {
+@Table(name = "exams")
+public class ExamEntity {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)

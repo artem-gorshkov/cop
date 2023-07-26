@@ -1,4 +1,4 @@
-package ru.mil.cop.test;
+package ru.mil.cop.exam;
 
 import lombok.Data;
 
