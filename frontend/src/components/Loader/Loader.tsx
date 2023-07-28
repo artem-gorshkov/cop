@@ -2,8 +2,13 @@
 
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
+import cx from 'classnames';
 import styles from './Loader.scss';
 
-export default function Loader() {
-  return <Spin className={styles.loader} indicator={<LoadingOutlined />} />;
+interface LoaderProps {
+  isCentered?: boolean;
+}
+
+export default function Loader({isCentered = false} : LoaderProps) {
+  return <Spin className={cx(styles.loader, isCentered && styles.centered)} indicator={<LoadingOutlined />} />;
 }

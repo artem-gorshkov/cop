@@ -6,7 +6,7 @@ import styles from './AppWrapper.scss';
 
 export default function AppWrapper() {
   return (
-    <Suspense fallback={<Loader fullScreen />}>
+    <Suspense fallback={<Loader isCentered />}>
       <Layout>
         <Layout.Header className={styles.header}>КОП</Layout.Header>
         <Layout.Content className={styles.content}>
