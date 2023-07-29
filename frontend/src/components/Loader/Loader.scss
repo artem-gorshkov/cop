@@ -1,10 +1,10 @@
-.loader {
-    position: absolute;
-    top: 50vh;
-    left: 50vw;
-    transform: translate(-50%, -50%);
+.loader span {
+  font-size: 120px !important;
+}
 
-    span {
-        font-size: 120px !important;
-    }
+.centered {
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
 }
