@@ -13,10 +13,10 @@ import { useAppContext } from "contexts/AppContext";
 export default function AdminAuth() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const {setIsEntitled} = useAppContext();
+  const { setIsEntitled } = useAppContext();
 
-  function handleAuthSuccess() {
-    localStorage.setItem(STORAGE_KEYS.TOKEN, form.getFieldValue('username'));
+  function handleAuthSuccess({ token }: { token: string }) {
+    localStorage.setItem(STORAGE_KEYS.TOKEN, token);
     setIsEntitled(true);
     navigate(ROUTES.TEST_LIST);
   }
