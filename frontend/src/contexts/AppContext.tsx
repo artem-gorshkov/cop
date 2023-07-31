@@ -3,17 +3,15 @@
 import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import Loader from "components/Loader";
 import { STORAGE_KEYS } from "constants/storage";
+import Api from "services/api";
+import { useMutation } from "@tanstack/react-query";
 
 export interface ContextValues {
-  isLoaded: boolean;
-  setIsLoaded: (flag: boolean) => void;
   isEntitled: boolean;
   setIsEntitled: (flag: boolean) => void;
 }
 
 const initialState: ContextValues = {
-  isLoaded: false,
-  setIsLoaded: () => undefined,
   isEntitled: false,
   setIsEntitled: () => undefined,
 };
@@ -21,26 +19,40 @@ const initialState: ContextValues = {
 const AppContext = createContext<ContextValues>(initialState);
 export const useAppContext = () => useContext(AppContext);
 
+const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+
 export function AppContextProvider({ children }: { children: ReactNode }) {
-  const [isLoaded, setIsLoaded] = useState(initialState.isLoaded);
   const [isEntitled, setIsEntitled] = useState(initialState.isEntitled);
 
+  function handleVerificationSuccess() {
+    setIsEntitled(true);
+  }
+
+  function handleVerificationError() {
+    localStorage.removeItem(STORAGE_KEYS.TOKEN);
+  }
+
+  const { mutate: verifyToken, isSuccess, isError } = useMutation({
+    mutationKey: ['verifyToken'],
+    mutationFn: Api.verifyToken,
+    onError: handleVerificationError,
+    onSuccess: handleVerificationSuccess,
+  });
+
   useEffect(() => {
-    if (localStorage.getItem(STORAGE_KEYS.TOKEN)) setIsEntitled(true);
-    setIsLoaded(true);
+    Api.init();
+    if (token) verifyToken();
   }, []);
 
   const contextValue = useMemo(
     () => ({
-      isLoaded,
-      setIsLoaded,
       isEntitled,
       setIsEntitled
     }),
-    [isLoaded, isEntitled]
+    [isEntitled]
   );
 
-  return isLoaded ? (
+  return isSuccess || isError || !token ? (
     <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
   ) : (
     <Loader isCentered />
