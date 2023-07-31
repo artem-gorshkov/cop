@@ -1,16 +1,12 @@
 import axios from "axios";
 import { Test } from "types/test";
-import { testsMock } from "../../__mocks-data__/tests.mock";
 import type { AdminCredentials } from "types/credentials";
-
-interface Environment {
-  BACKEND_API_BASE_URL: string;
-}
+import { STORAGE_KEYS } from "constants/storage";
 
 abstract class Api {
-  public static init(env: Environment): void {
+  public static init(): void {
     axios.defaults.withCredentials = true;
-    axios.defaults.baseURL = env.BACKEND_API_BASE_URL;
+    axios.defaults.headers.Authorization = localStorage.getItem(STORAGE_KEYS.TOKEN);
   }
 
   public static async getTests(): Promise<Test[]> {
@@ -18,7 +14,18 @@ abstract class Api {
   }
 
   public static async adminAuth(data: AdminCredentials) {
-    return (await axios.post('/api/admin-auth', data))?.data;
+    const token = (await axios.post<{token: string}>('/api/admin-auth', data))?.data?.token;
+    axios.defaults.headers.Authorization = token;
+    localStorage.setItem(STORAGE_KEYS.TOKEN, token);
+    return Promise.resolve();
+  }
+
+  public static async verifyToken() {
+    return axios.post('/api/token');
+  }
+
+  public static async adminLogout() {
+    return axios.post('/api/logout');
   }
 }
 

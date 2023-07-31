@@ -87,10 +87,6 @@ module.exports = (env, argv) => {
           ...DEFAULT_WEBPACK_PROPS,
         },
       ],
-      static: {
-        directory: path.join(__dirname, 'static'),
-        publicPath: PROJECT_PATH,
-      },
     },
   };
 };

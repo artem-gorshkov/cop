@@ -12,7 +12,9 @@ export default function AppWrapper() {
         <Layout.Content className={styles.content}>
           <Outlet />
         </Layout.Content>
-        <Layout.Footer className={styles.footer}>Доп. информация</Layout.Footer>
+        <Layout.Footer className={styles.footer}>
+          Все права принадлежат Кафедре РВПЛ Санкт-Петербургского военно-морского института
+        </Layout.Footer>
       </Layout>
     </Suspense>
   );

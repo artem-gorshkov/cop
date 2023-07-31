@@ -7,7 +7,6 @@ import { requiredRule } from 'constants/rules';
 import styles from './AdminAuth.scss';
 import { useMutation } from "@tanstack/react-query";
 import Api from "services/api";
-import { STORAGE_KEYS } from "constants/storage";
 import { useAppContext } from "contexts/AppContext";
 
 export default function AdminAuth() {
@@ -15,8 +14,7 @@ export default function AdminAuth() {
   const navigate = useNavigate();
   const { setIsEntitled } = useAppContext();
 
-  function handleAuthSuccess({ token }: { token: string }) {
-    localStorage.setItem(STORAGE_KEYS.TOKEN, token);
+  function handleAuthSuccess() {
     setIsEntitled(true);
     navigate(ROUTES.TEST_LIST);
   }
