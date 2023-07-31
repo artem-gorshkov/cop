@@ -23,7 +23,7 @@ export default function TestListPage() {
 
   const { mutate: logOut, isLoading: isLoggingOut } = useMutation({
     mutationKey: ['adminLogout'],
-    mutationFn: () => Api.adminLogout(),
+    mutationFn: Api.adminLogout,
     onError: handleLogoutError,
     onSuccess: handleLogoutSuccess,
   });
@@ -36,7 +36,7 @@ export default function TestListPage() {
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">
         {isEntitled ? (
-          <Button onClick={logOut} loading={isLoggingOut} >
+          <Button onClick={() => logOut()} loading={isLoggingOut} >
             Выйти
           </Button>
         ) : (
