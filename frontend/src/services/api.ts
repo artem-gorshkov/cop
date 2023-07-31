@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Test } from "types/test";
+import { testsMock } from "../../__mocks-data__/tests.mock";
 import type { AdminCredentials } from "types/credentials";
 
 interface Environment {
@@ -17,11 +18,7 @@ abstract class Api {
   }
 
   public static async adminAuth(data: AdminCredentials) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({});
-      }, 1000);
-    });
+    return (await axios.post('/api/admin-auth', data))?.data;
   }
 }
 

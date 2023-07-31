@@ -82,8 +82,8 @@ module.exports = (env, argv) => {
       historyApiFallback: true,
       proxy: [
         {
-          context: ['/tester/api'],
-          target: 'http://localhost:5000/',
+          context: ['/api'],
+          target: 'http://localhost:8000/',
           ...DEFAULT_WEBPACK_PROPS,
         },
       ],
