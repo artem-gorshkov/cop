@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { antdTheme } from 'styles/antd-theme';
 import Router from './Router';
 import 'styles/global.scss';
+import { AppContextProvider } from "contexts/AppContext";
 
 const rootNode = document.getElementById('root');
 
@@ -23,13 +24,15 @@ if (rootNode) {
 
   createRoot(rootNode).render(
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AntdConfigProvider theme={antdTheme}>
-          <App>
-            <Router />
-          </App>
-        </AntdConfigProvider>
-      </BrowserRouter>
+      <AppContextProvider>
+        <BrowserRouter>
+          <AntdConfigProvider theme={antdTheme}>
+            <App>
+              <Router />
+            </App>
+          </AntdConfigProvider>
+        </BrowserRouter>
+      </AppContextProvider>
     </QueryClientProvider>
   );
 }

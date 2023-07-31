@@ -10,12 +10,11 @@ import Api from "services/api";
 import Loader from "components/Loader";
 import { CloseOutlined, SettingOutlined } from "@ant-design/icons";
 import cx from "classnames";
+import { useAppContext } from "contexts/AppContext";
 
-interface TestListProps {
-  isEntitled?: boolean;
-}
+export default function TestList() {
+  const { isEntitled } = useAppContext();
 
-export default function TestList({ isEntitled = false }: TestListProps) {
   const { data, isFetching } = useQuery<Test[]>({
     queryKey: ['tests'],
     queryFn: () => Api.getTests(),
