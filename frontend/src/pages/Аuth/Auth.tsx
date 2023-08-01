@@ -11,7 +11,7 @@ export default function Auth() {
     <Layout hasSider className="fullHeight">
       <Layout.Content>
         <Typography.Title>Вход для обучаемого</Typography.Title>
-        <Form initialValues={{ name: '', patronymic: '', surname: '', groupNumber: '' }} name="Auth">
+        <Form initialValues={{ name: '', patronymic: '', surname: '', groupNumber: '' }} name="auth">
           <div className={styles.formItemWrapper}>
             <Form.Item name="name" rules={[requiredRule]}>
               <Input bordered={false} placeholder="Имя" />
