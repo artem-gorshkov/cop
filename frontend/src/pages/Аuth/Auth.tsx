@@ -10,17 +10,23 @@ export default function Auth() {
   return (
     <Layout hasSider className="fullHeight">
       <Layout.Content>
-        <Typography.Title>Вход для преподавателя</Typography.Title>
-        <Form initialValues={{ username: '', password: '' }} name="adminAuth">
+        <Typography.Title>Вход для обучаемого</Typography.Title>
+        <Form initialValues={{ name: '', patronymic: '', surname: '', groupNumber: '' }} name="auth">
           <div className={styles.formItemWrapper}>
-            <Form.Item name="username" rules={[requiredRule]}>
-              <Input bordered={false} placeholder="Логин" />
+            <Form.Item name="name" rules={[requiredRule]}>
+              <Input bordered={false} placeholder="Имя" />
             </Form.Item>
-            <Form.Item name="password" rules={[requiredRule]}>
-              <Input.Password bordered={false} placeholder="Пароль" />
+            <Form.Item name="patronymic" rules={[requiredRule]}>
+              <Input bordered={false} placeholder="Отчество" />
+            </Form.Item>
+            <Form.Item name="surname" rules={[requiredRule]}>
+              <Input bordered={false} placeholder="Фамилия" />
+            </Form.Item>
+            <Form.Item name="groupNumber" rules={[requiredRule]}>
+              <Input bordered={false} placeholder="Номер группы" />
             </Form.Item>
           </div>
-          <Button htmlType="submit">Войти</Button>
+          <Button htmlType="submit">Начать тест</Button>
         </Form>
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">
