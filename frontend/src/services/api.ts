@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Test } from "types/test";
+import { Exam } from "types/exam";
 import type { AdminCredentials } from "types/credentials";
 import { STORAGE_KEYS } from "constants/storage";
 
@@ -9,8 +9,8 @@ abstract class Api {
     axios.defaults.headers.Authorization = localStorage.getItem(STORAGE_KEYS.TOKEN);
   }
 
-  public static async getTests(): Promise<Test[]> {
-    return (await axios.get<Test[]>('/api/exams/names'))?.data;
+  public static async getExamNames(): Promise<Exam[]> {
+    return (await axios.get<Exam[]>('/api/exams/names'))?.data;
   }
 
   public static async adminAuth(data: AdminCredentials) {

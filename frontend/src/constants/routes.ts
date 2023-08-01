@@ -1,5 +1,7 @@
 export const ROUTES = {
-  TEST_LIST: '/',
+  EXAM_LIST: '/',
   ADMIN_AUTH: '/admin-auth',
   AUTH: '/auth',
+  CREATE: '/exam/create',
+  EDIT: '/exam/edit/:id',
 };

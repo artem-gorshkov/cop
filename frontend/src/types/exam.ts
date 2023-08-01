@@ -4,7 +4,7 @@ export interface Question {
   rightAnswer: number[];
 }
 
-export interface Test {
+export interface Exam {
   id: number;
   name: string;
   questions?: Question[];
