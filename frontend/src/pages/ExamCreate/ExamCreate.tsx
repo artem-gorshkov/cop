@@ -9,25 +9,15 @@ import { useMutation } from "@tanstack/react-query";
 import Api from "services/api";
 import { useEffect } from "react";
 import ExamDetail from "components/ExamDetail";
-
-const EMPTY_EXAM_DETAIL = {
-  name: '',
-  questions: [{
-    text: '',
-    answers: {
-      1: '',
-    },
-    rightAnswer: [],
-  }],
-}
+import { EMPTY_EXAM_DETAIL } from "constants/exam";
 
 export default function ExamCreate() {
   const { isEntitled } = useAppContext();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isEntitled) navigate(ROUTES.EXAM_LIST);
-  }, [isEntitled]);
+  // useEffect(() => {
+  //   if (!isEntitled) navigate(ROUTES.EXAM_LIST);
+  // }, [isEntitled]);
 
   function handleLogoutSuccess() {
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
