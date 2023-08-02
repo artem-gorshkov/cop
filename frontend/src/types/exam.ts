@@ -1,7 +1,11 @@
+export interface Answer {
+  text: string;
+  isRightAnswer: boolean;
+}
+
 export interface Question {
   text: string;
-  answers: {[key: string]: string};
-  rightAnswer: number[];
+  answers: Answer[];
 }
 
 export interface Exam {

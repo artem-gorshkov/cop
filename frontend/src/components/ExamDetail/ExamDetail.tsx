@@ -1,10 +1,12 @@
 'use client';
 
-import { Button, Card, Form, Row } from "antd";
+import { Button, Card, Form, Input, Row } from "antd";
 import { Exam } from "types/exam";
 import QuestionDetail from "components/ExamDetail/QuestionDetail";
 import { CloseOutlined } from "@ant-design/icons";
 import styles from './ExamDetail.scss';
+import { requiredRule } from "constants/rules";
+import { EMPTY_EXAM_DETAIL } from "constants/exam";
 
 interface ExamDetailProps {
   initialValues: Exam,
@@ -21,17 +23,24 @@ export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDeta
       initialValues={initialValues}
       autoComplete="off"
     >
+      <Form.Item
+        name='name'
+        rules={[requiredRule]}
+        className={styles.examName}
+      >
+        <Input placeholder='Название теста' />
+      </Form.Item>
       <Form.List name="questions">
         {(fields, { add, remove }) => (
           <>
-            {fields.map(({ key, name, ...restField }) => (
+            {fields.map(({ key, name, ...restField }, index) => (
               <Card
                 key={key}
                 className={styles.card}
                 title={
                   <Row className={styles.cardTitle}>
                     <span>
-                      Вопрос {fields.findIndex((value) => value.key === key) + 1}
+                      Вопрос {index + 1}
                     </span>
                     <Button disabled={fields.length === 1} icon={<CloseOutlined />} onClick={() => remove(name)}/>
                   </Row>
@@ -42,7 +51,7 @@ export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDeta
             ))}
             <Row className={styles.controls}>
               <Form.Item>
-                <Button onClick={add}>Добавить вопрос</Button>
+                <Button onClick={() => add(EMPTY_EXAM_DETAIL.questions?.[0])}>Добавить вопрос</Button>
               </Form.Item>
               <Form.Item>
                 <Button htmlType="submit" loading={isSaving}>

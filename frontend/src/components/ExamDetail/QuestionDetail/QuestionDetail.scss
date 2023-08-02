@@ -1,0 +1,39 @@
+.answerWrapper {
+    width: 100%;
+    gap: 24px;
+    align-items: center;
+    padding-left: 6px;
+    margin-bottom: 24px;
+
+    :global {
+        .ant-form-item-explain + div{
+            display: none;
+        }
+
+        .ant-form-item {
+            margin-bottom: 0;
+
+            &:nth-child(2) {
+                display: flex;
+                flex: 1;
+
+                .ant-row {
+                    width: 100%;
+                }
+            }
+        }
+
+        .ant-checkbox {
+            transform: scale(2)
+        }
+    }
+
+    input {
+        height: 50px;
+    }
+}
+
+.addButton {
+    margin-left: auto;
+    display: flex;
+}
