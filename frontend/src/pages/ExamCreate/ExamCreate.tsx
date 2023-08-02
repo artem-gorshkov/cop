@@ -1,20 +1,37 @@
 'use client';
 
 import { Button, Layout, notification, Typography } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
 import { useAppContext } from "contexts/AppContext";
 import { STORAGE_KEYS } from "constants/storage";
 import { useMutation } from "@tanstack/react-query";
 import Api from "services/api";
 import styles from './ExamCreate.scss';
+import { useEffect } from "react";
+import ExamDetail from "components/ExamDetail";
+
+const EMPTY_EXAM_DETAIL = {
+  name: '',
+  questions: [{
+    text: '',
+    answers: {
+      1: '',
+    },
+    rightAnswer: [],
+  }],
+}
 
 export default function ExamCreate() {
-  const { isEntitled, setIsEntitled } = useAppContext();
+  const { isEntitled } = useAppContext();
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (!isEntitled) navigate(ROUTES.EXAM_LIST);
+  // }, [isEntitled]);
 
   function handleLogoutSuccess() {
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
-    setIsEntitled(false);
   }
 
   function handleLogoutError(error: Error) {
@@ -32,26 +49,14 @@ export default function ExamCreate() {
     <Layout hasSider className="fullHeight">
       <Layout.Content>
         <Typography.Title>Конструктор теста</Typography.Title>
-        {!isEntitled && (
-          <Button styles={styles.addButton}>
-            <Link to={ROUTES.CREATE}>
-              <span>Добавить тест</span>
-            </Link>
-          </Button>
-        )}
+        <ExamDetail initialValues={EMPTY_EXAM_DETAIL} onSave={console.log}/>
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">
-        {isEntitled ? (
-          <Button onClick={() => logOut()} loading={isLoggingOut}>
-            Выйти
-          </Button>
-        ) : (
-          <Button>
-            <Link to={ROUTES.ADMIN_AUTH}>
-              <span>Вход преподавателя</span>
-            </Link>
-          </Button>
-        )}
+        <Button>
+          <Link to={ROUTES.EXAM_LIST}>
+            <span>Назад</span>
+          </Link>
+        </Button>
       </Layout.Sider>
     </Layout>
   );
