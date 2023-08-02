@@ -15,7 +15,6 @@ export const antdTheme: ThemeConfig = {
     },
     Button: {
       colorBorder: 'black',
-      buttonPaddingHorizontal: 10,
       controlHeight: 50,
     },
     Typography: {

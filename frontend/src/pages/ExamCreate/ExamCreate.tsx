@@ -1,20 +1,36 @@
 'use client';
 
 import { Button, Layout, notification, Typography } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
-import TestList from "components/TestList";
 import { useAppContext } from "contexts/AppContext";
 import { STORAGE_KEYS } from "constants/storage";
 import { useMutation } from "@tanstack/react-query";
 import Api from "services/api";
+import { useEffect } from "react";
+import ExamDetail from "components/ExamDetail";
 
-export default function TestListPage() {
-  const { isEntitled, setIsEntitled } = useAppContext();
+const EMPTY_EXAM_DETAIL = {
+  name: '',
+  questions: [{
+    text: '',
+    answers: {
+      1: '',
+    },
+    rightAnswer: [],
+  }],
+}
+
+export default function ExamCreate() {
+  const { isEntitled } = useAppContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isEntitled) navigate(ROUTES.EXAM_LIST);
+  }, [isEntitled]);
 
   function handleLogoutSuccess() {
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
-    setIsEntitled(false);
   }
 
   function handleLogoutError(error: Error) {
@@ -31,21 +47,15 @@ export default function TestListPage() {
   return (
     <Layout hasSider className="fullHeight">
       <Layout.Content>
-        <Typography.Title>Тесты</Typography.Title>
-        <TestList/>
+        <Typography.Title>Конструктор теста</Typography.Title>
+        <ExamDetail initialValues={EMPTY_EXAM_DETAIL} onSave={console.log} isSaving={false}/>
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">
-        {isEntitled ? (
-          <Button onClick={() => logOut()} loading={isLoggingOut} >
-            Выйти
-          </Button>
-        ) : (
-          <Button>
-            <Link to={ROUTES.ADMIN_AUTH}>
-              <span>Вход преподавателя</span>
-            </Link>
-          </Button>
-        )}
+        <Button>
+          <Link to={ROUTES.EXAM_LIST}>
+            <span>Назад</span>
+          </Link>
+        </Button>
       </Layout.Sider>
     </Layout>
   );

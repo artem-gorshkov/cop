@@ -1,10 +1,10 @@
 'use client';
 
 import { Button, Row } from "antd";
-import { Test } from "types/test";
+import { Exam } from "types/exam";
 import { ROUTES } from "constants/routes";
 import { Link } from "react-router-dom";
-import styles from './TestList.scss';
+import styles from './List.scss';
 import { useQuery } from "@tanstack/react-query";
 import Api from "services/api";
 import Loader from "components/Loader";
@@ -12,12 +12,12 @@ import { CloseOutlined, SettingOutlined } from "@ant-design/icons";
 import cx from "classnames";
 import { useAppContext } from "contexts/AppContext";
 
-export default function TestList() {
+export default function List() {
   const { isEntitled } = useAppContext();
 
-  const { data, isFetching } = useQuery<Test[]>({
+  const { data, isFetching } = useQuery<Exam[]>({
     queryKey: ['tests'],
-    queryFn: () => Api.getTests(),
+    queryFn: () => Api.getExamNames(),
     initialData: [],
   });
 

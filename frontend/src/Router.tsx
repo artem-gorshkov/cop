@@ -3,16 +3,18 @@ import { RouteObject, useRoutes } from 'react-router-dom';
 import AppWrapper from 'components/AppWrapper';
 import { ROUTES } from 'constants/routes';
 import AdminAuth from 'pages/AdminAuth';
-import TestListPage from 'pages/TestListPage';
+import ExamList from 'pages/ExamList';
 import Auth from "pages/Аuth";
+import ExamCreate from "pages/ExamCreate";
 
 const routes: RouteObject[] = [
   {
     element: <AppWrapper />,
     children: [
-      { path: ROUTES.TEST_LIST, element: <TestListPage /> },
+      { path: ROUTES.EXAM_LIST, element: <ExamList /> },
       { path: ROUTES.ADMIN_AUTH, element: <AdminAuth /> },
       { path: ROUTES.AUTH, element: <Auth /> },
+      { path: ROUTES.CREATE, element: <ExamCreate /> },
     ],
   },
 ];

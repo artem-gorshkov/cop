@@ -16,7 +16,7 @@ export default function AdminAuth() {
 
   function handleAuthSuccess() {
     setIsEntitled(true);
-    navigate(ROUTES.TEST_LIST);
+    navigate(ROUTES.EXAM_LIST);
   }
 
   function handleAuthError(error: Error) {
@@ -48,7 +48,7 @@ export default function AdminAuth() {
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">
         <Button>
-          <Link to={ROUTES.TEST_LIST}>
+          <Link to={ROUTES.EXAM_LIST}>
             <span>Назад</span>
           </Link>
         </Button>
