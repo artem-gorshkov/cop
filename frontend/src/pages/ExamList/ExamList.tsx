@@ -34,7 +34,7 @@ export default function ExamList() {
       <Layout.Content>
         <Typography.Title>Тесты</Typography.Title>
         <List />
-        {!isEntitled && (
+        {isEntitled && (
           <Button styles={styles.addButton}>
             <Link to={ROUTES.CREATE}>
               <span>Добавить тест</span>

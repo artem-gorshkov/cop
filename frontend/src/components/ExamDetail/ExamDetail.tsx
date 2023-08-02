@@ -9,9 +9,10 @@ import styles from './ExamDetail.scss';
 interface ExamDetailProps {
   initialValues: Exam,
   onSave: (data: Exam) => void,
+  isSaving: boolean,
 }
 
-export default function ExamDetail({ initialValues, onSave }: ExamDetailProps) {
+export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDetailProps) {
   return (
     <Form
       name="exam"
@@ -32,7 +33,7 @@ export default function ExamDetail({ initialValues, onSave }: ExamDetailProps) {
                     <span>
                       Вопрос {fields.findIndex((value) => value.key === key) + 1}
                     </span>
-                    <Button icon={<CloseOutlined />} onClick={() => remove(name)}/>
+                    <Button disabled={fields.length === 1} icon={<CloseOutlined />} onClick={() => remove(name)}/>
                   </Row>
                 }
               >
@@ -44,7 +45,7 @@ export default function ExamDetail({ initialValues, onSave }: ExamDetailProps) {
                 <Button onClick={add}>Добавить вопрос</Button>
               </Form.Item>
               <Form.Item>
-                <Button htmlType="submit">
+                <Button htmlType="submit" loading={isSaving}>
                   Сохранить изменения
                 </Button>
               </Form.Item>

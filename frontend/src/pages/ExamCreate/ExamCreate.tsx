@@ -7,7 +7,6 @@ import { useAppContext } from "contexts/AppContext";
 import { STORAGE_KEYS } from "constants/storage";
 import { useMutation } from "@tanstack/react-query";
 import Api from "services/api";
-import styles from './ExamCreate.scss';
 import { useEffect } from "react";
 import ExamDetail from "components/ExamDetail";
 
@@ -26,9 +25,9 @@ export default function ExamCreate() {
   const { isEntitled } = useAppContext();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (!isEntitled) navigate(ROUTES.EXAM_LIST);
-  // }, [isEntitled]);
+  useEffect(() => {
+    if (!isEntitled) navigate(ROUTES.EXAM_LIST);
+  }, [isEntitled]);
 
   function handleLogoutSuccess() {
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
@@ -49,7 +48,7 @@ export default function ExamCreate() {
     <Layout hasSider className="fullHeight">
       <Layout.Content>
         <Typography.Title>Конструктор теста</Typography.Title>
-        <ExamDetail initialValues={EMPTY_EXAM_DETAIL} onSave={console.log}/>
+        <ExamDetail initialValues={EMPTY_EXAM_DETAIL} onSave={console.log} isSaving={false}/>
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">
         <Button>
