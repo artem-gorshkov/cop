@@ -3,5 +3,5 @@ export const ROUTES = {
   ADMIN_AUTH: '/admin-auth',
   AUTH: '/auth',
   CREATE: '/exam/create',
-  EDIT: '/exam/edit/:id',
+  EDIT: '/exam/edit',
 };

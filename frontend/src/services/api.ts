@@ -9,12 +9,16 @@ abstract class Api {
     axios.defaults.headers.Authorization = localStorage.getItem(STORAGE_KEYS.TOKEN);
   }
 
-  public static async getExamNames(): Promise<Exam[]> {
-    return (await axios.get<Exam[]>('/api/exams/names'))?.data;
+  public static async getExamNames(): Promise<ExamPayload[]> {
+    return (await axios.get<ExamPayload[]>('/api/exams/names'))?.data;
+  }
+
+  public static async getExamDetails(id: number): Promise<ExamPayload> {
+    return (await axios.get<ExamPayload>(`/api/exams/${id}`))?.data;
   }
 
   public static async adminAuth(data: AdminCredentials) {
-    const token = (await axios.post<{token: string}>('/api/admin-auth', data))?.data?.token;
+    const token = (await axios.post<{ token: string }>('/api/admin-auth', data))?.data?.token;
     axios.defaults.headers.Authorization = token;
     localStorage.setItem(STORAGE_KEYS.TOKEN, token);
     return Promise.resolve();
@@ -30,6 +34,10 @@ abstract class Api {
 
   public static async createExam(data: ExamPayload) {
     return axios.post('/api/exams', data);
+  }
+
+  public static async editExam({ id, data }: { id: number, data: ExamPayload }) {
+    return axios.put(`/api/exams/${id}`, data);
   }
 }
 

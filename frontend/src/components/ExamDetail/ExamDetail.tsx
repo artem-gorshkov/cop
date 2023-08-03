@@ -54,7 +54,7 @@ export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDeta
                 <Button onClick={() => add(EMPTY_EXAM_DETAIL.questions?.[0])}>Добавить вопрос</Button>
               </Form.Item>
               <Form.Item>
-                <Button htmlType="submit" loading={isSaving}>
+                <Button htmlType="submit" loading={isSaving} disabled={isSaving}>
                   Сохранить изменения
                 </Button>
               </Form.Item>
