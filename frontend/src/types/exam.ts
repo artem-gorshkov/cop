@@ -16,11 +16,12 @@ export interface Exam {
 
 export interface QuestionPayload {
   text: string;
-  answers: { [key: string]: string },
+  answers: { [key: number]: string },
   rightAnswer: number[]
 }
 
 export interface ExamPayload {
+  id?: number;
   name: string;
   questions?: QuestionPayload[];
 }
