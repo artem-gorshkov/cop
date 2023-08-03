@@ -13,3 +13,14 @@ export interface Exam {
   name: string;
   questions?: Question[];
 }
+
+export interface QuestionPayload {
+  text: string;
+  answers: { [key: string]: string },
+  rightAnswer: number[]
+}
+
+export interface ExamPayload {
+  name: string;
+  questions?: QuestionPayload[];
+}
