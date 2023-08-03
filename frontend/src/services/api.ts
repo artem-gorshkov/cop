@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Exam } from "types/exam";
+import type { Exam, ExamPayload } from "types/exam";
 import type { AdminCredentials } from "types/credentials";
 import { STORAGE_KEYS } from "constants/storage";
 
@@ -26,6 +26,10 @@ abstract class Api {
 
   public static async adminLogout() {
     return axios.post('/api/logout');
+  }
+
+  public static async createExam(data: ExamPayload) {
+    return axios.post('/api/exams', data);
   }
 }
 
