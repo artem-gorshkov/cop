@@ -54,3 +54,7 @@
         }
     }
 }
+
+.modal {
+    @include modal;
+}
