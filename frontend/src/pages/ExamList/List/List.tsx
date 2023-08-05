@@ -1,11 +1,11 @@
 'use client';
 
-import { Button, Row } from "antd";
-import { Exam, ExamPayload } from "types/exam";
+import { Button, Modal, Row } from "antd";
+import type { ExamPayload } from "types/exam";
 import { ROUTES } from "constants/routes";
 import { Link } from "react-router-dom";
 import styles from './List.scss';
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Api from "services/api";
 import Loader from "components/Loader";
 import { CloseOutlined, SettingOutlined } from "@ant-design/icons";
@@ -15,11 +15,35 @@ import { useAppContext } from "contexts/AppContext";
 export default function List() {
   const { isEntitled } = useAppContext();
 
-  const { data, isFetching } = useQuery<ExamPayload[]>({
+  const { data, isFetching, refetch: refetchExams } = useQuery<ExamPayload[]>({
     queryKey: ['tests'],
     queryFn: () => Api.getExamNames(),
     initialData: [],
   });
+
+  const { mutateAsync: deleteExam, isLoading: isDeleting } = useMutation({
+    mutationKey: ['delete'],
+    mutationFn: Api.deleteExam,
+  });
+
+  async function handleDelete(examId?: number) {
+    await deleteExam(examId);
+    await refetchExams();
+  }
+
+  function showModal(examId?: number) {
+    Modal.warning({
+      title: 'Удалить тест?',
+      okText: 'Да',
+      cancelText: 'Нет',
+      onOk: () => handleDelete(examId),
+      okButtonProps: {
+        loading: isDeleting,
+      },
+      okCancel: true,
+      wrapClassName: styles.modal,
+    });
+  }
 
   return (
     <div className={styles.testList}>
@@ -41,7 +65,7 @@ export default function List() {
                     <SettingOutlined />
                   </Link>
                 </Button>
-                <Button icon={<CloseOutlined />} />
+                <Button icon={<CloseOutlined />} onClick={() => showModal(test.id)} />
               </>
             )}
           </Row>

@@ -39,6 +39,10 @@ abstract class Api {
   public static async editExam({ id, data }: { id: number, data: ExamPayload }) {
     return axios.put(`/api/exams/${id}`, data);
   }
+
+  public static async deleteExam(id?: number) {
+    return axios.delete(`/api/exams/${id}`);
+  }
 }
 
 export default Api;
