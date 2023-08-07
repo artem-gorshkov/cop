@@ -7,6 +7,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import styles from './ExamDetail.scss';
 import { requiredRule } from "constants/rules";
 import { EMPTY_EXAM_DETAIL } from "constants/exam";
+import { useAppContext } from "contexts/AppContext";
 
 interface ExamDetailProps {
   initialValues: Exam,
@@ -15,6 +16,8 @@ interface ExamDetailProps {
 }
 
 export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDetailProps) {
+  const { isEntitled } = useAppContext();
+
   return (
     <Form
       name="exam"
@@ -28,7 +31,7 @@ export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDeta
         rules={[requiredRule]}
         className={styles.examName}
       >
-        <Input placeholder='Название теста' />
+        <Input placeholder='Название теста' disabled={!isEntitled} />
       </Form.Item>
       <Form.List name="questions">
         {(fields, { add, remove }) => (
@@ -42,23 +45,27 @@ export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDeta
                     <span>
                       Вопрос {index + 1}
                     </span>
-                    <Button disabled={fields.length === 1} icon={<CloseOutlined />} onClick={() => remove(name)}/>
+                    {isEntitled && (
+                      <Button disabled={fields.length === 1} icon={<CloseOutlined />} onClick={() => remove(name)} />
+                    )}
                   </Row>
                 }
               >
                 <QuestionDetail name={name} restField={restField} />
               </Card>
             ))}
-            <Row className={styles.controls}>
-              <Form.Item>
-                <Button onClick={() => add(EMPTY_EXAM_DETAIL.questions?.[0])}>Добавить вопрос</Button>
-              </Form.Item>
-              <Form.Item>
-                <Button htmlType="submit" loading={isSaving} disabled={isSaving}>
-                  Сохранить изменения
-                </Button>
-              </Form.Item>
-            </Row>
+            {isEntitled && (
+              <Row className={styles.controls}>
+                <Form.Item>
+                  <Button onClick={() => add(EMPTY_EXAM_DETAIL.questions?.[0])}>Добавить вопрос</Button>
+                </Form.Item>
+                <Form.Item>
+                  <Button htmlType="submit" loading={isSaving} disabled={isSaving}>
+                    Сохранить изменения
+                  </Button>
+                </Form.Item>
+              </Row>
+            )}
           </>
         )}
       </Form.List>

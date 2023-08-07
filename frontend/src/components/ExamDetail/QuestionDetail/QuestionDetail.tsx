@@ -5,6 +5,7 @@ import { requiredRule } from "constants/rules";
 import styles from "./QuestionDetail.scss";
 import { CloseOutlined } from "@ant-design/icons";
 import { EMPTY_EXAM_DETAIL } from "constants/exam";
+import { useAppContext } from "contexts/AppContext";
 
 interface QuestionDetailProps {
   name: number,
@@ -12,6 +13,8 @@ interface QuestionDetailProps {
 }
 
 export default function QuestionDetail({ name, restField }: QuestionDetailProps) {
+  const { isEntitled } = useAppContext();
+
   return (
     <>
       <Form.Item
@@ -19,7 +22,7 @@ export default function QuestionDetail({ name, restField }: QuestionDetailProps)
         name={[name, 'text']}
         rules={[requiredRule]}
       >
-        <Input.TextArea placeholder='Текст вопроса' />
+        <Input.TextArea placeholder='Текст вопроса' disabled={!isEntitled} />
       </Form.Item>
       <Form.List name={[name, 'answers']}>
         {(fields, { add, remove }) => (
@@ -39,14 +42,18 @@ export default function QuestionDetail({ name, restField }: QuestionDetailProps)
                   name={[answerName, 'text']}
                   rules={[requiredRule]}
                 >
-                  <Input placeholder={`Вариант ответа ${index + 1}`} />
+                  <Input placeholder={`Вариант ответа ${index + 1}`} disabled={!isEntitled} />
                 </Form.Item>
-                <Button disabled={fields.length === 1} icon={<CloseOutlined />} onClick={() => remove(answerName)} />
+                {isEntitled && (
+                  <Button disabled={fields.length === 1} icon={<CloseOutlined />} onClick={() => remove(answerName)} />
+                )}
               </Row>
             ))}
-            <Button className={styles.addButton} onClick={() => add(EMPTY_EXAM_DETAIL.questions?.[0].answers?.[0])}>
-              Добавить ответ
-            </Button>
+            {isEntitled && (
+              <Button className={styles.addButton} onClick={() => add(EMPTY_EXAM_DETAIL.questions?.[0].answers?.[0])}>
+                Добавить ответ
+              </Button>
+            )}
           </>
         )}
       </Form.List>
