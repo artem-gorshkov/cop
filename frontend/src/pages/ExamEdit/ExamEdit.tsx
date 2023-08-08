@@ -24,7 +24,7 @@ export default function ExamEdit() {
   });
 
   const normalizedDetails = useMemo<Exam | undefined>(
-    () => examDetails && normalizeExamPayload(examDetails),
+    () => examDetails && normalizeExamPayload({data: examDetails, isSettingRightAnswers: true}),
     [examDetails]
   );
 

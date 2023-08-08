@@ -21,7 +21,7 @@ export default function ExamPass() {
   });
 
   const normalizedDetails = useMemo<Exam | undefined>(
-    () => examDetails && normalizeExamPayload(examDetails),
+    () => examDetails && normalizeExamPayload({data: examDetails}),
     [examDetails]
   );
 
