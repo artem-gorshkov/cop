@@ -4,4 +4,5 @@ export const ROUTES = {
   AUTH: '/auth',
   CREATE: '/exam/create',
   EDIT: '/exam/edit',
+  PASS: '/exam/pass',
 };

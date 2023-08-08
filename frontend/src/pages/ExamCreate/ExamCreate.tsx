@@ -16,9 +16,9 @@ export default function ExamCreate() {
   const { isEntitled } = useAppContext();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (!isEntitled) navigate(ROUTES.EXAM_LIST);
-  // }, [isEntitled]);
+  useEffect(() => {
+    if (!isEntitled) navigate(ROUTES.EXAM_LIST);
+  }, [isEntitled]);
 
   function handleCreateSuccess() {
     navigate(ROUTES.EXAM_LIST);

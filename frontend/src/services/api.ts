@@ -1,6 +1,6 @@
 import axios from "axios";
-import type { Exam, ExamPayload } from "types/exam";
-import type { AdminCredentials } from "types/credentials";
+import type { ExamPayload } from "types/exam";
+import type { AdminCredentials, UserCredentials } from "types/credentials";
 import { STORAGE_KEYS } from "constants/storage";
 
 abstract class Api {
@@ -24,6 +24,10 @@ abstract class Api {
     return Promise.resolve();
   }
 
+  public static async auth(data: UserCredentials) {
+    return Promise.resolve();
+  }
+
   public static async verifyToken() {
     return axios.post('/api/token');
   }
@@ -42,6 +46,10 @@ abstract class Api {
 
   public static async deleteExam(id?: number) {
     return axios.delete(`/api/exams/${id}`);
+  }
+
+  public static async passExam({ id, data }: { id: number, data: ExamPayload }) {
+    return Promise.resolve();
   }
 }
 

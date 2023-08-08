@@ -54,9 +54,9 @@ export default function List() {
           <Row className={cx(styles.testListItem, isEntitled && styles.isEntitled)} key={test.id}>
             <Link
               className={styles.testName}
-              to={isEntitled ? `${ROUTES.EDIT}/${test.id}` : `${ROUTES.AUTH}?testId=${test.id}`}
+              to={isEntitled ? `${ROUTES.EDIT}/${test.id}` : `${ROUTES.AUTH}?examId=${test.id}`}
             >
-              <span>{test.name}</span>
+              <span title={test.name}>{test.name}</span>
             </Link>
             {isEntitled && (
               <>

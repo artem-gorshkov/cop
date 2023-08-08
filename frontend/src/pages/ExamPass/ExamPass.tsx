@@ -1,19 +1,16 @@
 'use client';
 
 import { Button, Layout, notification, Typography } from 'antd';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ROUTES } from 'constants/routes';
-import { useAppContext } from "contexts/AppContext";
+import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Api from "services/api";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import ExamDetail from "components/ExamDetail";
 import type { Exam, ExamPayload } from "types/exam";
 import { normalizeExamData, normalizeExamPayload } from "utils/normalize";
 import Loader from "components/Loader";
 
-export default function ExamEdit() {
-  const { isEntitled } = useAppContext();
+export default function ExamPass() {
   const navigate = useNavigate();
 
   const examId = Number(useParams().examId);
@@ -24,48 +21,43 @@ export default function ExamEdit() {
   });
 
   const normalizedDetails = useMemo<Exam | undefined>(
-    () => examDetails && normalizeExamPayload({data: examDetails, isSettingRightAnswers: true}),
+    () => examDetails && normalizeExamPayload({data: examDetails}),
     [examDetails]
   );
 
-  useEffect(() => {
-    if (!isEntitled) navigate(ROUTES.EXAM_LIST);
-  }, [isEntitled]);
-
-  function handleEditSuccess() {
+  function handlePassSuccess() {
     notification.success({ message: 'Изменения сохранены' });
   }
 
-  function handleEditError(error: Error) {
+  function handlePassError(error: Error) {
     notification.error({ message: error.message });
   }
 
-  const { mutate: editExam, isLoading: isEditingExam } = useMutation({
-    mutationKey: ['editExam', examId],
-    mutationFn: Api.editExam,
-    onError: handleEditError,
-    onSuccess: handleEditSuccess,
+  const { mutate: passExam, isLoading: isPassingExam } = useMutation({
+    mutationKey: ['passExam', examId],
+    mutationFn: Api.passExam,
+    onError: handlePassError,
+    onSuccess: handlePassSuccess,
   });
 
-  function handleSave (data: Exam) {
-    editExam({id: examId, data: normalizeExamData(data)});
+  function handleFinishExam (data: Exam) {
+    passExam({id: examId, data: normalizeExamData(data)});
   }
 
   return (
     <Layout hasSider className="fullHeight">
       <Layout.Content>
-        <Typography.Title>Редактирование теста</Typography.Title>
+        <Typography.Title>Прохождение теста</Typography.Title>
         {isFetchingDetails || !normalizedDetails ? (
           <Loader />
         ) : (
-          <ExamDetail initialValues={normalizedDetails} onSave={handleSave} isSaving={isEditingExam}/>
+          <ExamDetail initialValues={normalizedDetails} onSave={handleFinishExam} isSaving={isPassingExam}/>
         )}
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">
-        <Button>
-          <Link to={ROUTES.EXAM_LIST}>
-            <span>Назад</span>
-          </Link>
+        {/* @ts-ignore */}
+        <Button htmlType="submit" form='exam' loading={isPassingExam} disabled={isPassingExam}>
+          Завершить тест
         </Button>
       </Layout.Sider>
     </Layout>
