@@ -56,7 +56,7 @@ export default function List() {
               className={styles.testName}
               to={isEntitled ? `${ROUTES.EDIT}/${test.id}` : `${ROUTES.AUTH}?examId=${test.id}`}
             >
-              <span>{test.name}</span>
+              <span title={test.name}>{test.name}</span>
             </Link>
             {isEntitled && (
               <>

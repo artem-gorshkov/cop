@@ -27,9 +27,16 @@
     }
 }
 
-.examName input {
+.examName {
     margin-top: 50px;
-    border: 1px solid black;
+
+    &.readOnly {
+        display: flex;
+    }
+
+    input {
+        border: 1px solid black;
+    }
 }
 
 .controls {

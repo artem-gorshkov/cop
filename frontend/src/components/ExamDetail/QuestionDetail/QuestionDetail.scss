@@ -4,6 +4,7 @@
     align-items: center;
     padding-left: 6px;
     margin-bottom: 24px;
+    flex-flow: row nowrap;
 
     :global {
         .ant-form-item-explain + div{
@@ -35,5 +36,10 @@
 
 .addButton {
     margin-left: auto;
+    display: flex;
+}
+
+.questionText {
+    margin-bottom: 50px;
     display: flex;
 }

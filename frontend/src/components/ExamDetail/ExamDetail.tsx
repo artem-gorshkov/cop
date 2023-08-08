@@ -8,6 +8,7 @@ import styles from './ExamDetail.scss';
 import { requiredRule } from "constants/rules";
 import { EMPTY_EXAM_DETAIL } from "constants/exam";
 import { useAppContext } from "contexts/AppContext";
+import cx from "classnames";
 
 interface ExamDetailProps {
   initialValues: Exam,
@@ -26,13 +27,17 @@ export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDeta
       initialValues={initialValues}
       autoComplete="off"
     >
-      <Form.Item
-        name='name'
-        rules={[requiredRule]}
-        className={styles.examName}
-      >
-        <Input placeholder='Название теста' disabled={!isEntitled} />
-      </Form.Item>
+      {isEntitled ? (
+        <Form.Item
+          name='name'
+          rules={[requiredRule]}
+          className={styles.examName}
+        >
+          <Input placeholder='Название теста' />
+        </Form.Item>
+      ) : (
+        <span className={cx(styles.examName, styles.readOnly)}>{initialValues.name}</span>
+      )}
       <Form.List name="questions">
         {(fields, { add, remove }) => (
           <>
@@ -51,7 +56,11 @@ export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDeta
                   </Row>
                 }
               >
-                <QuestionDetail name={name} restField={restField} />
+                <QuestionDetail
+                  name={name}
+                  restField={restField}
+                  {...(!isEntitled && { questionIndex: index, initialValues })}
+                />
               </Card>
             ))}
             {isEntitled && (
