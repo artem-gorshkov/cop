@@ -28,9 +28,9 @@ export default function ExamEdit() {
     [examDetails]
   );
 
-  // useEffect(() => {
-  //   if (!isEntitled) navigate(ROUTES.EXAM_LIST);
-  // }, [isEntitled]);
+  useEffect(() => {
+    if (!isEntitled) navigate(ROUTES.EXAM_LIST);
+  }, [isEntitled]);
 
   function handleEditSuccess() {
     notification.success({ message: 'Изменения сохранены' });
