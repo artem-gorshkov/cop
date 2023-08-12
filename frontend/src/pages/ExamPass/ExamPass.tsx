@@ -9,6 +9,7 @@ import ExamDetail from "components/ExamDetail";
 import type { Exam, ExamPayload } from "types/exam";
 import { normalizeExamData, normalizeExamPayload } from "utils/normalize";
 import Loader from "components/Loader";
+import { ROUTES } from "constants/routes";
 
 export default function ExamPass() {
   const navigate = useNavigate();
@@ -21,12 +22,12 @@ export default function ExamPass() {
   });
 
   const normalizedDetails = useMemo<Exam | undefined>(
-    () => examDetails && normalizeExamPayload({data: examDetails}),
+    () => examDetails && normalizeExamPayload({ data: examDetails }),
     [examDetails]
   );
 
-  function handlePassSuccess() {
-    notification.success({ message: 'Изменения сохранены' });
+  function handlePassSuccess({ attemptId }: { attemptId: number }) {
+    navigate(`${ROUTES.RESULT.replace(':examId', examId.toString())}/${attemptId}`);
   }
 
   function handlePassError(error: Error) {
@@ -40,8 +41,8 @@ export default function ExamPass() {
     onSuccess: handlePassSuccess,
   });
 
-  function handleFinishExam (data: Exam) {
-    passExam({id: examId, data: normalizeExamData(data)});
+  function handleFinishExam(data: Exam) {
+    passExam({ id: examId, data: normalizeExamData(data) });
   }
 
   return (
@@ -51,7 +52,7 @@ export default function ExamPass() {
         {isFetchingDetails || !normalizedDetails ? (
           <Loader />
         ) : (
-          <ExamDetail initialValues={normalizedDetails} onSave={handleFinishExam} isSaving={isPassingExam}/>
+          <ExamDetail initialValues={normalizedDetails} onSave={handleFinishExam} isSaving={isPassingExam} />
         )}
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">

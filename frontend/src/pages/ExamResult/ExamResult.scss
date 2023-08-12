@@ -1,0 +1,16 @@
+.row {
+    :global .ant-typography {
+        font-size: 28px !important;
+    }
+
+    &:first-child {
+        margin-top: 50px;
+        margin-bottom: 24px;
+    }
+
+    gap: 10px;
+}
+
+.result {
+    font-weight: bold !important;
+}
