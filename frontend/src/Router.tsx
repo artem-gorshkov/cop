@@ -8,6 +8,7 @@ import Auth from "pages/Аuth";
 import ExamCreate from "pages/ExamCreate";
 import ExamEdit from "pages/ExamEdit";
 import ExamPass from "pages/ExamPass";
+import ExamResult from "pages/ExamResult";
 
 const routes: RouteObject[] = [
   {
@@ -19,6 +20,7 @@ const routes: RouteObject[] = [
       { path: ROUTES.CREATE, element: <ExamCreate /> },
       { path: `${ROUTES.EDIT}/:examId`, element: <ExamEdit /> },
       { path: `${ROUTES.PASS}/:examId`, element: <ExamPass /> },
+      { path: `${ROUTES.RESULT}/:attemptId`, element: <ExamResult /> },
     ],
   },
 ];

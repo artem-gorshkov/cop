@@ -49,7 +49,11 @@ abstract class Api {
   }
 
   public static async passExam({ id, data }: { id: number, data: ExamPayload }) {
-    return Promise.resolve();
+    return Promise.resolve({attemptId: 5});
+  }
+
+  public static async getAttemptDetails({ examId, attemptId }: { examId: number, attemptId: number }) {
+    return Promise.resolve({});
   }
 }
 
