@@ -14,9 +14,9 @@ export default function ExamResult() {
   const examId = Number(searchParams.get('examId'));
   const attemptId = Number(searchParams.get('attemptId'));
 
-  const { data: examResult, isFetching } = useQuery({
-    queryKey: ['examResult', {examId, attemptId}],
-    queryFn: () => Api.getExamResult({examId, attemptId}),
+  const { data: attemptDetails, isFetching } = useQuery({
+    queryKey: ['attemptDetails', {examId, attemptId}],
+    queryFn: () => Api.getAttemptDetails({examId, attemptId}),
   });
 
 

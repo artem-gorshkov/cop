@@ -52,7 +52,7 @@ abstract class Api {
     return Promise.resolve({attemptId: 5});
   }
 
-  public static async getExamResult({ examId, attemptId }: { examId: number, attemptId: number }) {
+  public static async getAttemptDetails({ examId, attemptId }: { examId: number, attemptId: number }) {
     return Promise.resolve({});
   }
 }
