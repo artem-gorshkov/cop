@@ -18,7 +18,7 @@ abstract class Api {
   }
 
   public static async adminAuth(data: AdminCredentials) {
-    const token = (await axios.post<{ token: string }>('/api/admin-auth', data))?.data?.token;
+    const token = (await axios.post<{ authenticationToken: string }>('/api/admin-auth', data))?.data?.authenticationToken;
     axios.defaults.headers.Authorization = token;
     localStorage.setItem(STORAGE_KEYS.TOKEN, token);
     return Promise.resolve();
@@ -49,7 +49,7 @@ abstract class Api {
   }
 
   public static async passExam({ id, data }: { id: number, data: ExamPayload }) {
-    return Promise.resolve({attemptId: 5});
+    return Promise.resolve({ attemptId: 5 });
   }
 
   public static async getAttemptDetails({ examId, attemptId }: { examId: number, attemptId: number }) {
