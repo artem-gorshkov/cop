@@ -61,7 +61,7 @@ export default function List() {
             {isEntitled && (
               <>
                 <Button>
-                  <Link to={ROUTES.ADMIN_AUTH}>
+                  <Link to={`${ROUTES.EDIT}/${test.id}`}>
                     <SettingOutlined />
                   </Link>
                 </Button>
