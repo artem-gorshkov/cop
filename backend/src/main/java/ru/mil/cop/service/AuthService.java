@@ -25,23 +25,29 @@ public class AuthService {
     }
 
     public AuthenticationResponse login(UserDto userDto) {
-        Authentication authenticate;
         try {
-            authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(),
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(),
                     userDto.getPassword()));
+            if (authenticate != null && authenticate.isAuthenticated()) {
+                SecurityContextHolder.getContext().setAuthentication(authenticate);
+                String authenticationToken = jwtProvider.generateToken(authenticate);
+                return AuthenticationResponse.builder()
+                        .authenticationToken(authenticationToken)
+                        .build();
+            }
         } catch (AuthenticationException authenticationException) {
             return AuthenticationResponse.builder()
-                    .authenticationToken("")
-//                    .username("")
                     .build();
         }
-        assert authenticate != null;
-        SecurityContextHolder.getContext().setAuthentication(authenticate);
-        String authenticationToken = jwtProvider.generateToken(authenticate);
-        String username = userDto.getUsername();
         return AuthenticationResponse.builder()
-                .authenticationToken(authenticationToken)
-//                .username(username)
                 .build();
     }
+
+    public String extractTokenFromHeader(String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7); // Убрать префикс "Bearer "
+        }
+        return null;
+    }
+
 }
