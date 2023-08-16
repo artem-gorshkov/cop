@@ -27,7 +27,7 @@ export default function ExamPass() {
   );
 
   function handlePassSuccess(attemptId: number) {
-    navigate(`${ROUTES.RESULT.replace(':examId', examId.toString())}/${attemptId}`);
+    navigate(`${ROUTES.RESULT}/${attemptId}`);
   }
 
   function handlePassError(error: Error) {

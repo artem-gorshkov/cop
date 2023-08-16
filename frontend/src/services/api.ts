@@ -2,6 +2,7 @@ import axios from "axios";
 import type { AnswerPayload, ExamPayload } from "types/exam";
 import type { AdminCredentials, UserCredentials } from "types/credentials";
 import { STORAGE_KEYS } from "constants/storage";
+import type { AttemptDetails } from "types/attempt";
 
 abstract class Api {
   public static init(): void {
@@ -57,8 +58,8 @@ abstract class Api {
     return (await axios.post<{ attemptId: number }>(`api/exam/pass/${id}`, {...data, ...user}))?.data?.attemptId;
   }
 
-  public static async getAttemptDetails({ examId, attemptId }: { examId: number, attemptId: number }) {
-    return Promise.resolve({ fraction: 0.9 });
+  public static async getAttemptDetails(id: number) {
+    return (await axios.get<AttemptDetails>(`api/attempt/${id}`))?.data;
   }
 }
 
