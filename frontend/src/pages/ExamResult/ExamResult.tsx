@@ -10,36 +10,39 @@ import styles from './ExamResult.scss';
 import cx from "classnames";
 import { useMemo } from "react";
 import { getGrade } from "utils/grade";
-
+import type { AttemptDetails } from "types/attempt";
 
 export default function ExamResult() {
   const [searchParams] = useSearchParams();
-  const examId = Number(searchParams.get('examId'));
   const attemptId = Number(searchParams.get('attemptId'));
 
-  const { data: attemptDetails, isFetching } = useQuery({
-    queryKey: ['attemptDetails', {examId, attemptId}],
-    queryFn: () => Api.getAttemptDetails({examId, attemptId}),
+  const { data: attemptDetails, isFetching } = useQuery<AttemptDetails>({
+    queryKey: ['attemptDetails', attemptId],
+    queryFn: () => Api.getAttemptDetails(attemptId),
   });
 
-  const grade = useMemo(() => getGrade(attemptDetails?.fraction), [attemptDetails]);
+  const grade = useMemo(
+    () => attemptDetails && getGrade(attemptDetails.rightCount / attemptDetails.totalCount),
+    [attemptDetails]
+  );
 
   return (
     <Layout hasSider className="fullHeight">
       <Layout.Content>
         <Typography.Title>Тест завершен</Typography.Title>
-        {isFetching ? (
+        {isFetching || !attemptDetails ? (
           <Loader />
         ) : (
           <div>
             <div className={styles.section}>
               <Typography.Text>Верных ответов:</Typography.Text>
-              <Typography.Text className={styles.result}>12/12</Typography.Text>
+              <Typography.Text
+                className={styles.result}>{attemptDetails?.rightCount}/{attemptDetails?.totalCount}</Typography.Text>
             </div>
             <div className={styles.section}>
               <Typography.Text>Оценка за тест:</Typography.Text>
-              <Typography.Text className={cx(styles.result, styles.grade, styles[grade.key.toLowerCase()])}>
-                {grade.text}
+              <Typography.Text className={cx(styles.result, styles.grade, grade && styles[grade.key.toLowerCase()])}>
+                {grade?.text}
               </Typography.Text>
             </div>
           </div>

@@ -27,34 +27,10 @@ export default function AttemptList() {
     [examDetails]
   );
 
-  function handlePassSuccess({ attemptId }: { attemptId: number }) {
-    navigate(`${ROUTES.RESULT.replace(':examId', examId.toString())}/${attemptId}`);
-  }
-
-  function handlePassError(error: Error) {
-    notification.error({ message: error.message });
-  }
-
-  const { mutate: passExam, isLoading: isPassingExam } = useMutation({
-    mutationKey: ['passExam', examId],
-    mutationFn: Api.passExam,
-    onError: handlePassError,
-    onSuccess: handlePassSuccess,
-  });
-
-  function handleFinishExam(data: Exam) {
-    passExam({ id: examId, data: normalizeExamData(data) });
-  }
-
   return (
     <Layout hasSider className="fullHeight">
       <Layout.Content>
         <Typography.Title>Прохождение теста</Typography.Title>
-        {isFetchingDetails || !normalizedDetails ? (
-          <Loader />
-        ) : (
-          <ExamDetail initialValues={normalizedDetails} onSave={handleFinishExam} isSaving={isPassingExam} />
-        )}
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">
         {/* @ts-ignore */}

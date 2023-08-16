@@ -1,7 +1,8 @@
 import axios from "axios";
-import type { ExamPayload } from "types/exam";
+import type { AnswerPayload, ExamPayload } from "types/exam";
 import type { AdminCredentials, UserCredentials } from "types/credentials";
 import { STORAGE_KEYS } from "constants/storage";
+import type { AttemptDetails } from "types/attempt";
 
 abstract class Api {
   public static init(): void {
@@ -18,13 +19,17 @@ abstract class Api {
   }
 
   public static async adminAuth(data: AdminCredentials) {
-    const token = (await axios.post<{ authenticationToken: string }>('/api/admin-auth', data))?.data?.authenticationToken;
+    const token = (await axios.post<{
+      authenticationToken: string
+    }>('/api/admin-auth', data))?.data?.authenticationToken;
     axios.defaults.headers.Authorization = token;
     localStorage.setItem(STORAGE_KEYS.TOKEN, token);
     return Promise.resolve();
   }
 
-  public static async auth(data: UserCredentials) {
+  public static async checkAttempts({ examId, data }: { examId: number, data: UserCredentials }) {
+    await axios.post('api/attempt/check', { examId, ...data });
+    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(data));
     return Promise.resolve();
   }
 
@@ -48,12 +53,13 @@ abstract class Api {
     return axios.delete(`/api/exams/${id}`);
   }
 
-  public static async passExam({ id, data }: { id: number, data: ExamPayload }) {
-    return Promise.resolve({ attemptId: 5 });
+  public static async passExam({ id, data }: { id: number, data: AnswerPayload }) {
+    const user = JSON.parse(localStorage.getItem(STORAGE_KEYS.USER) || "{}");
+    return (await axios.post<{ attemptId: number }>(`api/exam/pass/${id}`, {...data, ...user}))?.data?.attemptId;
   }
 
-  public static async getAttemptDetails({ examId, attemptId }: { examId: number, attemptId: number }) {
-    return Promise.resolve({fraction: 0.9});
+  public static async getAttemptDetails(id: number) {
+    return (await axios.get<AttemptDetails>(`api/attempt/${id}`))?.data;
   }
 }
 

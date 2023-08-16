@@ -1,4 +1,4 @@
-import { Exam, ExamPayload, QuestionPayload } from "types/exam";
+import type { AnswerPayload, Exam, ExamPayload, QuestionPayload } from "types/exam";
 
 export function normalizeExamData(data: Exam): ExamPayload {
   return {
@@ -30,4 +30,16 @@ export function normalizeExamPayload({ data, isSettingRightAnswers = false }: { 
       }))
     })),
   };
+}
+
+export function normalizeAnswers(data: Exam): AnswerPayload {
+  return {
+    answers: data.questions?.map(question => {
+      return question.answers.reduce<number[]>(
+        (result, currentValue, currentIndex) => {
+          if (currentValue.isRightAnswer) result.push(currentIndex + 1);
+          return result;
+        }, []);
+    }),
+  }
 }
