@@ -7,7 +7,7 @@ import Api from "services/api";
 import { useMemo } from "react";
 import ExamDetail from "components/ExamDetail";
 import type { Exam, ExamPayload } from "types/exam";
-import { normalizeExamData, normalizeExamPayload } from "utils/normalize";
+import { normalizeAnswers, normalizeExamPayload } from "utils/normalize";
 import Loader from "components/Loader";
 import { ROUTES } from "constants/routes";
 
@@ -26,7 +26,7 @@ export default function ExamPass() {
     [examDetails]
   );
 
-  function handlePassSuccess({ attemptId }: { attemptId: number }) {
+  function handlePassSuccess(attemptId: number) {
     navigate(`${ROUTES.RESULT.replace(':examId', examId.toString())}/${attemptId}`);
   }
 
@@ -42,7 +42,7 @@ export default function ExamPass() {
   });
 
   function handleFinishExam(data: Exam) {
-    passExam({ id: examId, data: normalizeExamData(data) });
+    passExam({ id: examId, data: normalizeAnswers(data) });
   }
 
   return (

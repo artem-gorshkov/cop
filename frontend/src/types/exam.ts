@@ -25,3 +25,7 @@ export interface ExamPayload {
   name: string;
   questions?: QuestionPayload[];
 }
+
+export interface AnswerPayload {
+  answers?: { [key: number]: number[] };
+}

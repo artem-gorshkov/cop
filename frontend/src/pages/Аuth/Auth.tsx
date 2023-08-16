@@ -7,22 +7,25 @@ import { requiredRule } from 'constants/rules';
 import styles from './Auth.scss';
 import { useMutation } from "@tanstack/react-query";
 import Api from "services/api";
+import type { UserCredentials } from "types/credentials";
 
 export default function Auth() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
+  const examId = Number(searchParams.get('examId'));
+
   function handleAuthSuccess() {
-    navigate(`${ROUTES.PASS}/${searchParams.get('examId')}`);
+    navigate(`${ROUTES.PASS}/${examId}`);
   }
 
   function handleAuthError(error: Error) {
     notification.error({ message: error.message });
   }
 
-  const { mutate: signIn, isLoading: isSigningIn } = useMutation({
+  const { mutate: checkAttempts, isLoading: isCheckingAttempts } = useMutation({
     mutationKey: ['auth'],
-    mutationFn: Api.auth,
+    mutationFn: (data: UserCredentials) => Api.checkAttempts({examId, data}),
     onError: handleAuthError,
     onSuccess: handleAuthSuccess,
   });
@@ -32,7 +35,11 @@ export default function Auth() {
     <Layout hasSider className="fullHeight">
       <Layout.Content>
         <Typography.Title>Вход для обучаемого</Typography.Title>
-        <Form initialValues={{ name: '', patronymic: '', surname: '', groupNumber: '' }} name="auth" onFinish={signIn}>
+        <Form
+          initialValues={{ name: '', patronymic: '', surname: '', groupNumber: '' }}
+          name="auth"
+          onFinish={checkAttempts}
+        >
           <div className={styles.formItemWrapper}>
             <Form.Item name="surname" rules={[requiredRule]}>
               <Input bordered={false} placeholder="Фамилия" />
