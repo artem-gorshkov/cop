@@ -1,42 +1,60 @@
 @import "./variables";
 
 @mixin scrollable {
-    overflow-y: scroll;
+  overflow-y: scroll;
 
-    &::-webkit-scrollbar {
-        width: 10px;
-    }
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
 
-    &::-webkit-scrollbar-thumb {
-        background-color: grey;
-        background-clip: padding-box;
-        border-radius: 100px;
-    }
+  &::-webkit-scrollbar-thumb {
+    background-color: grey;
+    background-clip: padding-box;
+    border-radius: 100px;
+  }
 
-    &::-webkit-scrollbar-track {
-        background: white;
-        border-radius: 10px;
-    }
+  &::-webkit-scrollbar-track {
+    background: white;
+    border-radius: 10px;
+  }
 }
 
 @mixin ellipsis {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @mixin modal {
-    :global .ant-modal-content {
-        border-radius: 0;
-    }
+  :global .ant-modal-content {
+    border-radius: 0;
+  }
 
-    span {
-        font-size: 28px !important;
-        font-weight: normal !important;
-    }
+  span {
+    font-size: 28px !important;
+    font-weight: normal !important;
+  }
 
-    button {
-        height: fit-content;
-        border-radius: 0;
-    }
+  button {
+    height: fit-content;
+    border-radius: 0;
+  }
+}
+
+@mixin grade {
+  &.excellent {
+    background-color: $excellent-grade-color;
+  }
+
+  &.good {
+    background-color: $good-grade-color;
+  }
+
+  &.satisfactory {
+    background-color: $satisfactory-grade-color;
+  }
+
+  &.unsatisfactory {
+    background-color: $unsatisfactory-grade-color;
+  }
 }

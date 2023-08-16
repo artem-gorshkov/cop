@@ -7,6 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 import Api from "services/api";
 import Loader from "components/Loader";
 import styles from './ExamResult.scss';
+import cx from "classnames";
+import { useMemo } from "react";
+import { getGrade } from "utils/grade";
 
 
 export default function ExamResult() {
@@ -19,7 +22,7 @@ export default function ExamResult() {
     queryFn: () => Api.getAttemptDetails({examId, attemptId}),
   });
 
-
+  const grade = useMemo(() => getGrade(attemptDetails?.fraction), [attemptDetails]);
 
   return (
     <Layout hasSider className="fullHeight">
@@ -29,14 +32,16 @@ export default function ExamResult() {
           <Loader />
         ) : (
           <div>
-            <Row className={styles.row}>
+            <div className={styles.section}>
               <Typography.Text>Верных ответов:</Typography.Text>
               <Typography.Text className={styles.result}>12/12</Typography.Text>
-            </Row>
-            <Row className={styles.row}>
+            </div>
+            <div className={styles.section}>
               <Typography.Text>Оценка за тест:</Typography.Text>
-              <Typography.Text className={styles.result}>Отлично</Typography.Text>
-            </Row>
+              <Typography.Text className={cx(styles.result, styles.grade, styles[grade.key.toLowerCase()])}>
+                {grade.text}
+              </Typography.Text>
+            </div>
           </div>
         )}
       </Layout.Content>

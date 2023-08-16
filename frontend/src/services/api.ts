@@ -53,7 +53,7 @@ abstract class Api {
   }
 
   public static async getAttemptDetails({ examId, attemptId }: { examId: number, attemptId: number }) {
-    return Promise.resolve({});
+    return Promise.resolve({fraction: 0.9});
   }
 }
 
