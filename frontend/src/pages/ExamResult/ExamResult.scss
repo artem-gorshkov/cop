@@ -1,14 +1,27 @@
-.row {
+@import "styles/mixins";
+
+.section {
+    display: flex;
+    flex-direction: column;
+    margin: 50px 0 24px;
+    gap: 10px;
+
     :global .ant-typography {
         font-size: 28px !important;
     }
 
-    &:first-child {
-        margin-top: 50px;
-        margin-bottom: 24px;
+    span:last-child {
+        padding-left: 150px;
+        margin-left: -50px;
+        font-size: 50px !important;
     }
+}
 
-    gap: 10px;
+.grade {
+    @include grade;
+
+    padding: 24px;
+    width: fit-content;
 }
 
 .result {
