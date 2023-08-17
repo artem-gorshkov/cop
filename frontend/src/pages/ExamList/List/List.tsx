@@ -50,22 +50,22 @@ export default function List() {
       {isFetching ? (
         <Loader />
       ) : (
-        data?.map((test) => (
-          <Row className={cx(styles.testListItem, isEntitled && styles.isEntitled)} key={test.id}>
+        data?.map((exam) => (
+          <Row className={cx(styles.testListItem, isEntitled && styles.isEntitled)} key={exam.id}>
             <Link
               className={styles.testName}
-              to={isEntitled ? `${ROUTES.EDIT}/${test.id}` : `${ROUTES.AUTH}?examId=${test.id}`}
+              to={isEntitled ? `${ROUTES.ATTEMPT_LIST}/${exam.id}` : `${ROUTES.AUTH}?examId=${exam.id}`}
             >
-              <span title={test.name}>{test.name}</span>
+              <span title={exam.name}>{exam.name}</span>
             </Link>
             {isEntitled && (
               <>
                 <Button>
-                  <Link to={`${ROUTES.EDIT}/${test.id}`}>
+                  <Link to={`${ROUTES.EDIT}/${exam.id}`}>
                     <SettingOutlined />
                   </Link>
                 </Button>
-                <Button icon={<CloseOutlined />} onClick={() => showModal(test.id)} />
+                <Button icon={<CloseOutlined />} onClick={() => showModal(exam.id)} />
               </>
             )}
           </Row>

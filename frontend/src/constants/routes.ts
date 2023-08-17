@@ -6,5 +6,5 @@ export const ROUTES = {
   EDIT: '/exam/edit',
   PASS: '/exam/pass',
   RESULT: '/exam/result',
-  ATTEMPT_LIST: '/exam/:examId/attempts',
+  ATTEMPT_LIST: '/exam/attempts',
 };

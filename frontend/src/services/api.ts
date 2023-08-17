@@ -58,8 +58,12 @@ abstract class Api {
     return (await axios.post<{ attemptId: number }>(`api/exam/pass/${id}`, {...data, ...user}))?.data?.attemptId;
   }
 
-  public static async getAttemptDetails(id: number) {
-    return (await axios.get<AttemptDetails>(`api/attempt/${id}`))?.data;
+  public static async getAttemptDetails(attemptId: number) {
+    return (await axios.get<AttemptDetails>(`api/attempt/${attemptId}`))?.data;
+  }
+
+  public static async getAttemptList(examId: number) {
+    return (await axios.get<AttemptDetails[]>(`api/exam/attempts/${examId}`))?.data;
   }
 }
 
