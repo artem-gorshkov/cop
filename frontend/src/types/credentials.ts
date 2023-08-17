@@ -7,5 +7,5 @@ export interface UserCredentials {
   surname: string;
   name: string;
   patronymic: string;
-  group: string;
+  groupNumber: string;
 }

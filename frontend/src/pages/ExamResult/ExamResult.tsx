@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Layout, Row, Typography } from 'antd';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Button, Layout, Typography } from 'antd';
+import { Link, useParams } from 'react-router-dom';
 import { ROUTES } from 'constants/routes';
 import { useQuery } from "@tanstack/react-query";
 import Api from "services/api";
@@ -13,8 +13,7 @@ import { getGrade } from "utils/grade";
 import type { AttemptDetails } from "types/attempt";
 
 export default function ExamResult() {
-  const [searchParams] = useSearchParams();
-  const attemptId = Number(searchParams.get('attemptId'));
+  const attemptId = Number(useParams().attemptId);
 
   const { data: attemptDetails, isFetching } = useQuery<AttemptDetails>({
     queryKey: ['attemptDetails', attemptId],
