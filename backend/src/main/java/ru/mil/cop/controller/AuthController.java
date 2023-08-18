@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/admin-auth")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody UserDto userDto, BindingResult bindingResult) {
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody UserDto userDto) {
         AuthenticationResponse response = authService.login(userDto);
         if (response.getAuthenticationToken() != null) {
             return ResponseEntity.ok(response);
