@@ -14,7 +14,6 @@ export default function ExamList() {
   const { isEntitled, setIsEntitled } = useAppContext();
 
   function handleLogoutSuccess() {
-    localStorage.removeItem(STORAGE_KEYS.TOKEN);
     setIsEntitled(false);
   }
 

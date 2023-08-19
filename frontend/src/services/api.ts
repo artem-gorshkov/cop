@@ -38,7 +38,9 @@ abstract class Api {
   }
 
   public static async adminLogout() {
-    return axios.post('/api/logout');
+    await axios.post('/api/logout');
+    localStorage.removeItem(STORAGE_KEYS.TOKEN);
+    delete axios.defaults.headers.Authorization;
   }
 
   public static async createExam(data: ExamPayload) {

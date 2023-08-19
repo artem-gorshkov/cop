@@ -40,7 +40,7 @@ export default function AttemptList() {
   return (
     <Layout hasSider className={cx(styles.content, "fullHeight")}>
       <Layout.Content className={styles.title}>
-        <Typography.Title>Журнал теста</Typography.Title>
+        <Typography.Title>Журнал</Typography.Title>
       </Layout.Content>
       <Layout.Sider width={500} className={styles.side}>
         <Button>
