@@ -20,5 +20,7 @@ public interface AttemptRepository extends CrudRepository<Attempt, Long> {
             value = "SELECT attempt_status FROM attempts "
                     + "WHERE user_id = :userId AND exam_id = :examId LIMIT 1")
     AttemptStatus findAttemptStatusByUserAndExam(Integer userId, Integer examId);
+
+    Attempt findByUserIdAndExamId(Integer userId, Integer examId);
 }
 
