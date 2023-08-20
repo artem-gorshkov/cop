@@ -15,6 +15,7 @@ export default function ExamPass() {
   const navigate = useNavigate();
 
   const examId = Number(useParams().examId);
+  const attemptId = Number(useParams().attemptId);
 
   const { data: examDetails, isFetching: isFetchingDetails } = useQuery<ExamPayload>({
     queryKey: ['getExamDetails', examId],
@@ -26,7 +27,7 @@ export default function ExamPass() {
     [examDetails]
   );
 
-  function handlePassSuccess(attemptId: number) {
+  function handlePassSuccess() {
     navigate(`${ROUTES.RESULT}/${attemptId}`);
   }
 
@@ -35,14 +36,14 @@ export default function ExamPass() {
   }
 
   const { mutate: passExam, isLoading: isPassingExam } = useMutation({
-    mutationKey: ['passExam', examId],
+    mutationKey: ['passExam', attemptId],
     mutationFn: Api.passExam,
     onError: handlePassError,
     onSuccess: handlePassSuccess,
   });
 
   function handleFinishExam(data: Exam) {
-    passExam({ id: examId, data: normalizeAnswers(data) });
+    passExam({ attemptId, data: normalizeAnswers(data) });
   }
 
   return (

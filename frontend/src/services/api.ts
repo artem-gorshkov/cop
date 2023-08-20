@@ -28,9 +28,11 @@ abstract class Api {
   }
 
   public static async checkAttempts({ examId, data }: { examId: number, data: UserCredentials }) {
-    await axios.post('api/attempt/check', { examId, ...data });
-    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(data));
-    return Promise.resolve();
+    const attemptId = (await axios.post<{
+      attemptId: number
+    }>('api/attempt/check', { examId, ...data }))?.data?.attemptId;
+    localStorage.setItem(STORAGE_KEYS.ATTEMPT_ID, attemptId.toString());
+    return Promise.resolve(attemptId);
   }
 
   public static async verifyToken() {
@@ -55,17 +57,16 @@ abstract class Api {
     return axios.delete(`/api/exams/${id}`);
   }
 
-  public static async passExam({ id, data }: { id: number, data: AnswerPayload }) {
-    const user = JSON.parse(localStorage.getItem(STORAGE_KEYS.USER) || "{}");
-    return (await axios.post<{ attemptId: number }>(`api/exam/pass/${id}`, {...data, ...user}))?.data?.attemptId;
+  public static async passExam({ attemptId, data }: { attemptId: number, data: AnswerPayload }) {
+    return axios.post(`/api/attempt/pass/${attemptId}`, data);
   }
 
   public static async getAttemptDetails(attemptId: number) {
-    return (await axios.get<AttemptDetails>(`api/attempt/${attemptId}`))?.data;
+    return (await axios.get<AttemptDetails>(`/api/attempt/${attemptId}`))?.data;
   }
 
   public static async getAttemptList(examId: number) {
-    return (await axios.get<AttemptDetails[]>(`api/exam/attempts/${examId}`))?.data;
+    return (await axios.get<AttemptDetails[]>(`/api/exam/attempts/${examId}`))?.data;
   }
 }
 

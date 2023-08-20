@@ -15,8 +15,8 @@ export default function Auth() {
 
   const examId = Number(searchParams.get('examId'));
 
-  function handleAuthSuccess() {
-    navigate(`${ROUTES.PASS}/${examId}`);
+  function handleAuthSuccess(attemptId: number) {
+    navigate(`${ROUTES.PASS.replace(':examId', examId.toString())}/${attemptId}`);
   }
 
   function handleAuthError(error: Error) {

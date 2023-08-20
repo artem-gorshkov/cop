@@ -20,7 +20,7 @@ const routes: RouteObject[] = [
       { path: ROUTES.AUTH, element: <Auth /> },
       { path: ROUTES.CREATE, element: <ExamCreate /> },
       { path: `${ROUTES.EDIT}/:examId`, element: <ExamEdit /> },
-      { path: `${ROUTES.PASS}/:examId`, element: <ExamPass /> },
+      { path: `${ROUTES.PASS}/:attemptId`, element: <ExamPass /> },
       { path: `${ROUTES.RESULT}/:attemptId`, element: <ExamResult /> },
       { path: `${ROUTES.ATTEMPT_LIST}/:examId`, element: <AttemptList /> },
     ],
