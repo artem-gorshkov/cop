@@ -34,4 +34,19 @@ a {
         margin: 0;
         font-size: 50px !important;
     }
+
+    .ant-modal-content {
+        width: 540px;
+        border-radius: 0;
+
+        span {
+            font-size: 28px !important;
+            font-weight: normal !important;
+        }
+
+        button {
+            height: fit-content;
+            border-radius: 0;
+        }
+    }
 }

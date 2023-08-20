@@ -7,3 +7,8 @@ export const EMPTY_EXAM_DETAIL: Exam = {
     answers: [{ text: '', isRightAnswer: false }],
   }],
 }
+
+export const ATTEMPT_STATUSES = {
+  START: 'В процессе',
+  FINISH: 'Завершён',
+};

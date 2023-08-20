@@ -41,7 +41,6 @@ export default function List() {
         loading: isDeleting,
       },
       okCancel: true,
-      wrapClassName: styles.modal,
     });
   }
 

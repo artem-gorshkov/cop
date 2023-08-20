@@ -15,13 +15,13 @@ import type { AttemptDetails } from "types/attempt";
 export default function ExamResult() {
   const attemptId = Number(useParams().attemptId);
 
-  const { data: attemptDetails, isFetching } = useQuery<AttemptDetails>({
+  const { data: attemptDetails, isFetching } = useQuery<{attempt: AttemptDetails}>({
     queryKey: ['attemptDetails', attemptId],
     queryFn: () => Api.getAttemptDetails(attemptId),
   });
 
   const grade = useMemo(
-    () => attemptDetails && getGrade(attemptDetails.rightCount / attemptDetails.totalCount),
+    () => attemptDetails && getGrade(attemptDetails.attempt.rightCount / attemptDetails.attempt.totalCount),
     [attemptDetails]
   );
 
@@ -35,8 +35,9 @@ export default function ExamResult() {
           <div>
             <div className={styles.section}>
               <Typography.Text>Верных ответов:</Typography.Text>
-              <Typography.Text
-                className={styles.result}>{attemptDetails?.rightCount}/{attemptDetails?.totalCount}</Typography.Text>
+              <Typography.Text className={styles.result}>
+                {attemptDetails?.attempt?.rightCount}/{attemptDetails?.attempt?.totalCount}
+              </Typography.Text>
             </div>
             <div className={styles.section}>
               <Typography.Text>Оценка за тест:</Typography.Text>
