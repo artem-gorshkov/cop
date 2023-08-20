@@ -4,7 +4,7 @@ export const ROUTES = {
   AUTH: '/auth',
   CREATE: '/exam/create',
   EDIT: '/exam/edit',
-  PASS: '/exam/pass',
+  PASS: '/exam/:examId/pass',
   RESULT: '/exam/result',
   ATTEMPT_LIST: '/exam/attempts',
 };
