@@ -2,6 +2,7 @@ package ru.mil.cop.attempt.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.mil.cop.attempt.AttemptStatus;
 
 @Data
 @AllArgsConstructor
@@ -14,4 +15,5 @@ public class AttemptInfoDto {
     private String groupNumber;
     private Integer rightCount;
     private Integer totalCount;
+    private AttemptStatus attemptStatus;
 }
