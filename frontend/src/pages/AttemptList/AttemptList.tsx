@@ -12,19 +12,16 @@ import cx from "classnames";
 import Loader from "components/Loader";
 import { useCallback } from "react";
 import { getGrade } from "utils/grade";
-import type { ExamPayload } from "types/exam";
 
 export default function AttemptList() {
   const examId = Number(useParams().examId);
 
-  const { data: examDetails, isFetching: isFetchingDetails } = useQuery<ExamPayload>({
-    queryKey: ['getExamDetails', examId],
-    queryFn: () => Api.getExamDetails(examId),
-  });
-
-  const { data: attempts, isFetching: isFetchingAttempts } = useQuery<AttemptDetails[]>({
+  const { data: attemptHistory, isFetching: isFetchingHistory } = useQuery<{
+    name: string,
+    attempts: AttemptDetails[]
+  }>({
     queryKey: ['getAttemptList', examId],
-    queryFn: () => Api.getAttemptList(examId),
+    queryFn: () => Api.getAttemptHistory(examId),
   });
 
   const renderAnswerStats = useCallback(
@@ -46,7 +43,7 @@ export default function AttemptList() {
   return (
     <Layout hasSider className={cx(styles.content, "fullHeight")}>
       <Layout.Content className={styles.title}>
-        <Typography.Title>{examDetails?.name}</Typography.Title>
+        <Typography.Title>{attemptHistory?.name}</Typography.Title>
       </Layout.Content>
       <Layout.Sider width={500} className={styles.side}>
         <Button>
@@ -61,9 +58,9 @@ export default function AttemptList() {
           rowKey="attemptId"
           locale={{ emptyText: "Тест ещё не был пройден" }}
           className={styles.attemptList}
-          dataSource={attempts}
+          dataSource={attemptHistory?.attempts}
           pagination={false}
-          loading={{ spinning: isFetchingAttempts, indicator: <Loader /> }}
+          loading={{ spinning: isFetchingHistory, indicator: <Loader /> }}
         >
           <Table.Column
             title="Фамилия"
