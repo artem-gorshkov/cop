@@ -7,14 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.mil.cop.attempt.dto.AttemptSubmissionDto;
-import ru.mil.cop.exam.ExamEntity;
-import ru.mil.cop.exam.ExamRepository;
-import ru.mil.cop.exam.Question;
 import ru.mil.cop.auth.model.User;
 import ru.mil.cop.auth.repository.UserRepository;
+import ru.mil.cop.exam.ExamRepository;
+import ru.mil.cop.exam.Question;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -84,5 +82,9 @@ public class AttemptService {
         }
 
         return totalCorrectAnswers;
+    }
+
+    public void deleteAttempt(Integer attemptId) {
+        attemptRepository.deleteById(attemptId);
     }
 }

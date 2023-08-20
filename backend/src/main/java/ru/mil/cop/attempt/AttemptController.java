@@ -3,6 +3,7 @@ package ru.mil.cop.attempt;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,11 @@ public class AttemptController {
     @GetMapping("/{attemptId}")
     public AttemptInfoDto getAttempt(@PathVariable Integer attemptId) {
         return attemptService.findAttempt(attemptId).createAttemptInfoDto();
+    }
+
+    @DeleteMapping("/{attemptId}")
+    public void deleteAttempt(@PathVariable Integer attemptId) {
+        attemptService.deleteAttempt(attemptId);
     }
 
     @PostMapping("/check")
