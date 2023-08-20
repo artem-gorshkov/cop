@@ -30,7 +30,7 @@ public class ExamController {
     @GetMapping("/api/exam/attempts/{examId}")
     public ExamResultDto getExamAttempts(@PathVariable Integer examId) {
         ExamEntity examEntity = examRepository.findById(examId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Теста с id: " + examId + "не существует"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Теста с id: " + examId + " не существует"));
 
         List<AttemptInfoDto> attempts = attemptRepository.findByExamId(examId).stream()
                 .map(AttemptEntity::createAttemptInfoDto)

@@ -8,11 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.mil.cop.attempt.dto.AttemptSubmissionDto;
 import ru.mil.cop.exam.ExamEntity;
+import ru.mil.cop.exam.ExamRepository;
 import ru.mil.cop.exam.Question;
 import ru.mil.cop.auth.model.User;
 import ru.mil.cop.auth.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -20,10 +22,11 @@ public class AttemptService {
 
     private final UserRepository userRepository;
     private final AttemptRepository attemptRepository;
+    private final ExamRepository examRepository;
 
     public AttemptEntity findAttempt(Integer attemptId) {
         return attemptRepository.findById(attemptId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Попытки с id: " + attemptId + "не существует"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Попытки с id: " + attemptId + " не существует"));
     }
 
     public Integer getUserId(String username, String surname, String patronymic, String groupNumber) {
@@ -40,29 +43,22 @@ public class AttemptService {
     }
 
     @Transactional
-    public boolean checkUserAttempt(Integer userId, Integer examId) {
-        if (attemptRepository.existsByUserAndExam(userId, examId)) {
-            AttemptStatus attemptStatus = attemptRepository.findAttemptStatusByUserAndExam(userId, examId);
-            return attemptStatus != null && attemptStatus != AttemptStatus.FINISH;
+    public Integer checkUserAttempt(Integer userId, Integer examId) {
+        AttemptEntity attempt = attemptRepository.findByUserIdAndExamId(userId, examId);
+
+        if (attempt != null) {
+            if (attempt.getAttemptStatus() == AttemptStatus.FINISH) {
+                return null;
+            }
+
+            return attempt.getId();
         }
 
-        User user = new User();
-        user.setId(userId);
-
-        ExamEntity exam = new ExamEntity();
-        exam.setId(examId);
-
         AttemptEntity attemptEntity = new AttemptEntity();
-        attemptEntity.setUser(user);
-        attemptEntity.setExam(exam);
+        attemptEntity.setUser(userRepository.findById(userId).get());
+        attemptEntity.setExam(examRepository.findById(examId).get());
         attemptEntity.setAttemptStatus(AttemptStatus.START);
-        attemptRepository.save(attemptEntity);
-
-        return true;
-    }
-
-    public Integer findAttemptIdByUserIdAndExamId(Integer userId, Integer examId) {
-        return attemptRepository.findByUserIdAndExamId(userId, examId).getId();
+        return attemptRepository.save(attemptEntity).getId();
     }
 
 

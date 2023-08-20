@@ -14,6 +14,7 @@ import ru.mil.cop.attempt.dto.AttemptIdDto;
 import ru.mil.cop.attempt.dto.AttemptInfoDto;
 import ru.mil.cop.attempt.dto.AttemptSubmissionDto;
 import ru.mil.cop.attempt.dto.CreateAttemptDto;
+import ru.mil.cop.exam.ExamRepository;
 
 @RestController
 @RequestMapping("/api/attempt")
@@ -21,6 +22,7 @@ import ru.mil.cop.attempt.dto.CreateAttemptDto;
 public class AttemptController {
 
     private final AttemptService attemptService;
+    private final ExamRepository examRepository;
 
     @GetMapping("/{attemptId}")
     public AttemptInfoDto getAttempt(@PathVariable Integer attemptId) {
@@ -31,11 +33,18 @@ public class AttemptController {
     public AttemptIdDto initTest(@RequestBody CreateAttemptDto createAttemptDto) {
         Integer userId = attemptService.getUserId(createAttemptDto.getName().toLowerCase(), createAttemptDto.getSurname().toLowerCase(),
                 createAttemptDto.getPatronymic().toLowerCase(), createAttemptDto.getGroupNumber().toLowerCase());
-        if (attemptService.checkUserAttempt(userId, createAttemptDto.getExamId())) {
-            return new AttemptIdDto(attemptService.findAttemptIdByUserIdAndExamId(userId, createAttemptDto.getExamId()));
-        } else {
+
+        if (!examRepository.existsById(createAttemptDto.getExamId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Теста с id: " + createAttemptDto.getExamId() + " не существует");
+        }
+
+        Integer attemptId = attemptService.checkUserAttempt(userId, createAttemptDto.getExamId());
+
+        if (attemptId == null) {
             throw new ResponseStatusException(HttpStatus.LOCKED, "Вы уже проходили данный тест. Свяжитесь с преподавателем для повторного прохождения");
         }
+
+        return new AttemptIdDto(attemptId);
     }
 
     @PostMapping("/pass/{attemptId}")
