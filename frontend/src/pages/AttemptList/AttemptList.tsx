@@ -12,9 +12,15 @@ import cx from "classnames";
 import Loader from "components/Loader";
 import { useCallback } from "react";
 import { getGrade } from "utils/grade";
+import type { ExamPayload } from "types/exam";
 
 export default function AttemptList() {
   const examId = Number(useParams().examId);
+
+  const { data: examDetails, isFetching: isFetchingDetails } = useQuery<ExamPayload>({
+    queryKey: ['getExamDetails', examId],
+    queryFn: () => Api.getExamDetails(examId),
+  });
 
   const { data: attempts, isFetching: isFetchingAttempts } = useQuery<AttemptDetails[]>({
     queryKey: ['getAttemptList', examId],
@@ -40,7 +46,7 @@ export default function AttemptList() {
   return (
     <Layout hasSider className={cx(styles.content, "fullHeight")}>
       <Layout.Content className={styles.title}>
-        <Typography.Title>Журнал</Typography.Title>
+        <Typography.Title>{examDetails?.name}</Typography.Title>
       </Layout.Content>
       <Layout.Sider width={500} className={styles.side}>
         <Button>
@@ -86,10 +92,11 @@ export default function AttemptList() {
           <Table.Column
             render={(record) => (
               <div className={styles.controlsWrapper}>
-                <Button
-                  icon={<FileSearchOutlined />}
-                  onClick={() => console.log(record)}
-                />
+                <Button>
+                  <Link to={`${ROUTES.ATTEMPT_DETAILS.replace(':examId', examId.toString())}/${record.attemptId}`}>
+                    <FileSearchOutlined />
+                  </Link>
+                </Button>
               </div>
             )}
           />
