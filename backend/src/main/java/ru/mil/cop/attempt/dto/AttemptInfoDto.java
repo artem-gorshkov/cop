@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.mil.cop.attempt.AttemptStatus;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 public class AttemptInfoDto {
@@ -16,4 +18,5 @@ public class AttemptInfoDto {
     private Integer rightCount;
     private Integer totalCount;
     private AttemptStatus attemptStatus;
+    private List<List<Integer>> userAnswers;
 }

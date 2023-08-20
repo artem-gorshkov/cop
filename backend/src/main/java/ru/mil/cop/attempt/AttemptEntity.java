@@ -55,7 +55,8 @@ public class AttemptEntity {
                 this.getUser().getGroupNumber(),
                 this.getTotalCorrectAnswers(),
                 this.getExam().getQuestions().size(),
-                this.attemptStatus
+                this.attemptStatus,
+                this.userAnswers
         );
     }
 }
