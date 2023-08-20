@@ -6,7 +6,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource(collectionResourceRel = "exams", path = "exams")
+@RepositoryRestResource(collectionResourceRel = "exam", path = "exam")
 public interface ExamRepository extends CrudRepository<ExamEntity, Integer> {
     List<Integer> findByName(@Param("name") String name);
 }

@@ -1,15 +1,14 @@
-package ru.mil.cop.controller;
+package ru.mil.cop.auth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.mil.cop.dto.AuthenticationResponse;
-import ru.mil.cop.dto.UserDto;
+import ru.mil.cop.auth.dto.AuthenticationResponse;
+import ru.mil.cop.auth.dto.UserDto;
 import ru.mil.cop.security.JwtProvider;
-import ru.mil.cop.service.AuthService;
+import ru.mil.cop.auth.service.AuthService;
 
 @RestController
 @RequestMapping("/api")

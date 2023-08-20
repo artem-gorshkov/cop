@@ -1,4 +1,4 @@
-package ru.mil.cop.dto;
+package ru.mil.cop.auth.dto;
 
 import lombok.Data;
 

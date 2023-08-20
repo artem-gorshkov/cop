@@ -1,4 +1,4 @@
-package ru.mil.cop.service;
+package ru.mil.cop.auth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -7,8 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.mil.cop.dto.AuthenticationResponse;
-import ru.mil.cop.dto.UserDto;
+import ru.mil.cop.auth.dto.AuthenticationResponse;
+import ru.mil.cop.auth.dto.UserDto;
 import ru.mil.cop.security.JwtProvider;
 
 

@@ -1,4 +1,4 @@
-package ru.mil.cop.model;
+package ru.mil.cop.auth.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

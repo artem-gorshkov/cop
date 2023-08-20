@@ -1,13 +1,15 @@
-package ru.mil.cop.repository;
+package ru.mil.cop.attempt;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.mil.cop.model.Attempt;
-import ru.mil.cop.model.AttemptStatus;
+import ru.mil.cop.attempt.AttemptEntity;
+import ru.mil.cop.attempt.AttemptStatus;
+
+import java.util.List;
 
 @Repository
-public interface AttemptRepository extends CrudRepository<Attempt, Long> {
+public interface AttemptRepository extends CrudRepository<AttemptEntity, Integer> {
 
     @Query(nativeQuery = true,
             value = "SELECT CASE WHEN EXISTS "
@@ -21,6 +23,8 @@ public interface AttemptRepository extends CrudRepository<Attempt, Long> {
                     + "WHERE user_id = :userId AND exam_id = :examId LIMIT 1")
     AttemptStatus findAttemptStatusByUserAndExam(Integer userId, Integer examId);
 
-    Attempt findByUserIdAndExamId(Integer userId, Integer examId);
+    AttemptEntity findByUserIdAndExamId(Integer userId, Integer examId);
+
+    List<AttemptEntity> findByExamId(Integer examId);
 }
 

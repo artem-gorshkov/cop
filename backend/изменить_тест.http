@@ -1,6 +1,6 @@
 ###
 
-# curl --location --request PUT 'http://localhost:8080/api/exams/1'
+# curl --location --request PUT 'http://localhost:8080/api/exam/1'
 #--header 'Content-Type: application/json'
 #--data-raw '{
 #    "name":"измененный первый тест",
@@ -37,7 +37,7 @@
 #        }
 #    ]
 #}'
-PUT http://localhost:8080/api/exams/1
+PUT http://localhost:8080/api/exam/1
 Content-Type: application/json
 
 {

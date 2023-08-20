@@ -1,9 +1,9 @@
-package ru.mil.cop.dto;
+package ru.mil.cop.attempt.dto;
 
 import lombok.Data;
 
 @Data
-public class AttemptDto {
+public class CreateAttemptDto {
 
     private Integer examId;
     private String name;

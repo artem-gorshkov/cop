@@ -1,4 +1,4 @@
-package ru.mil.cop.model;
+package ru.mil.cop.attempt;
 
 public enum AttemptStatus {
     START,

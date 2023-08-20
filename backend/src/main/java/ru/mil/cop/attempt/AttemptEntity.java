@@ -1,4 +1,4 @@
-package ru.mil.cop.model;
+package ru.mil.cop.attempt;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import ru.mil.cop.attempt.dto.AttemptInfoDto;
 import ru.mil.cop.exam.ExamEntity;
+import ru.mil.cop.auth.model.User;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @TypeDefs(@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class))
-public class Attempt {
+public class AttemptEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +43,17 @@ public class Attempt {
     private List<List<Integer>> userAnswers;
 
     private Integer totalCorrectAnswers;
+
+    public AttemptInfoDto createAttemptInfoDto() {
+        return new AttemptInfoDto(
+                this.getId(),
+                this.getExam().getId(),
+                this.getUser().getUsername(),
+                this.getUser().getSurname(),
+                this.getUser().getPatronymic(),
+                this.getUser().getGroupNumber(),
+                this.getTotalCorrectAnswers(),
+                this.getExam().getQuestions().size()
+        );
+    }
 }

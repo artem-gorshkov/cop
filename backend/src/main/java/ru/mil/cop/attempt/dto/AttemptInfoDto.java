@@ -1,11 +1,12 @@
-package ru.mil.cop.dto;
+package ru.mil.cop.attempt.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class FinishTestDto {
+public class AttemptInfoDto {
+    private Integer attemptId;
     private Integer examId;
     private String name;
     private String surname;
