@@ -14,20 +14,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@RestController("/api/exam")
+@RestController
 @AllArgsConstructor
 public class ExamController {
     public final ExamRepository examRepository;
     private final AttemptRepository attemptRepository;
 
-    @GetMapping("/names")
+    @GetMapping("/api/exam/names")
     public List<ExamNameDto> getExamNames() {
         return StreamSupport.stream(examRepository.findAll().spliterator(), false)
                 .map(it -> new ExamNameDto(it.getId(), it.getName()))
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/attempts/{examId}")
+    @GetMapping("/api/exam/attempts/{examId}")
     public ExamResultDto getExamAttempts(@PathVariable Integer examId) {
         ExamEntity examEntity = examRepository.findById(examId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Теста с id: " + examId + "не существует"));
