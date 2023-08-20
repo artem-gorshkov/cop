@@ -54,7 +54,11 @@ export default function List() {
           <Row className={cx(styles.testListItem, isEntitled && styles.isEntitled)} key={exam.id}>
             <Link
               className={styles.testName}
-              to={isEntitled ? `${ROUTES.ATTEMPT_LIST}/${exam.id}` : `${ROUTES.AUTH}?examId=${exam.id}`}
+              to={isEntitled ? (
+                ROUTES.ATTEMPT_LIST.replace(':examId', exam?.id?.toString() || "")
+              ) : (
+                `${ROUTES.AUTH}?examId=${exam.id}`
+              )}
             >
               <span title={exam.name}>{exam.name}</span>
             </Link>

@@ -11,11 +11,11 @@ abstract class Api {
   }
 
   public static async getExamNames(): Promise<ExamPayload[]> {
-    return (await axios.get<ExamPayload[]>('/api/exams/names'))?.data;
+    return (await axios.get<ExamPayload[]>('/api/exam/names'))?.data;
   }
 
   public static async getExamDetails(id: number): Promise<ExamPayload> {
-    return (await axios.get<ExamPayload>(`/api/exams/${id}`))?.data;
+    return (await axios.get<ExamPayload>(`/api/exam/${id}`))?.data;
   }
 
   public static async adminAuth(data: AdminCredentials) {
@@ -46,15 +46,15 @@ abstract class Api {
   }
 
   public static async createExam(data: ExamPayload) {
-    return axios.post('/api/exams', data);
+    return axios.post('/api/exam', data);
   }
 
   public static async editExam({ id, data }: { id: number, data: ExamPayload }) {
-    return axios.put(`/api/exams/${id}`, data);
+    return axios.put(`/api/exam/${id}`, data);
   }
 
   public static async deleteExam(id?: number) {
-    return axios.delete(`/api/exams/${id}`);
+    return axios.delete(`/api/exam/${id}`);
   }
 
   public static async passExam({ attemptId, data }: { attemptId: number, data: AnswerPayload }) {
@@ -65,8 +65,8 @@ abstract class Api {
     return (await axios.get<AttemptDetails>(`/api/attempt/${attemptId}`))?.data;
   }
 
-  public static async getAttemptList(examId: number) {
-    return (await axios.get<AttemptDetails[]>(`/api/exam/attempts/${examId}`))?.data;
+  public static async getAttemptHistory(examId: number) {
+    return (await axios.get<{name: string, attempts: AttemptDetails[]}>(`/api/exam/attempts/${examId}`))?.data;
   }
 }
 

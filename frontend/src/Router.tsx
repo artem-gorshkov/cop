@@ -10,6 +10,7 @@ import ExamEdit from "pages/ExamEdit";
 import ExamPass from "pages/ExamPass";
 import ExamResult from "pages/ExamResult";
 import AttemptList from "pages/AttemptList";
+import AttemptDetails from "pages/AttemptDetails";
 
 const routes: RouteObject[] = [
   {
@@ -22,7 +23,8 @@ const routes: RouteObject[] = [
       { path: `${ROUTES.EDIT}/:examId`, element: <ExamEdit /> },
       { path: `${ROUTES.PASS}/:attemptId`, element: <ExamPass /> },
       { path: `${ROUTES.RESULT}/:attemptId`, element: <ExamResult /> },
-      { path: `${ROUTES.ATTEMPT_LIST}/:examId`, element: <AttemptList /> },
+      { path: ROUTES.ATTEMPT_LIST, element: <AttemptList /> },
+      { path: `${ROUTES.ATTEMPT_DETAILS}/:attemptId`, element: <AttemptDetails /> },
     ],
   },
 ];

@@ -16,9 +16,12 @@ import { getGrade } from "utils/grade";
 export default function AttemptList() {
   const examId = Number(useParams().examId);
 
-  const { data: attempts, isFetching: isFetchingAttempts } = useQuery<AttemptDetails[]>({
+  const { data: attemptHistory, isFetching: isFetchingHistory } = useQuery<{
+    name: string,
+    attempts: AttemptDetails[]
+  }>({
     queryKey: ['getAttemptList', examId],
-    queryFn: () => Api.getAttemptList(examId),
+    queryFn: () => Api.getAttemptHistory(examId),
   });
 
   const renderAnswerStats = useCallback(
@@ -40,7 +43,7 @@ export default function AttemptList() {
   return (
     <Layout hasSider className={cx(styles.content, "fullHeight")}>
       <Layout.Content className={styles.title}>
-        <Typography.Title>Журнал</Typography.Title>
+        <Typography.Title>{attemptHistory?.name}</Typography.Title>
       </Layout.Content>
       <Layout.Sider width={500} className={styles.side}>
         <Button>
@@ -55,9 +58,9 @@ export default function AttemptList() {
           rowKey="attemptId"
           locale={{ emptyText: "Тест ещё не был пройден" }}
           className={styles.attemptList}
-          dataSource={attempts}
+          dataSource={attemptHistory?.attempts}
           pagination={false}
-          loading={{ spinning: isFetchingAttempts, indicator: <Loader /> }}
+          loading={{ spinning: isFetchingHistory, indicator: <Loader /> }}
         >
           <Table.Column
             title="Фамилия"
@@ -86,10 +89,11 @@ export default function AttemptList() {
           <Table.Column
             render={(record) => (
               <div className={styles.controlsWrapper}>
-                <Button
-                  icon={<FileSearchOutlined />}
-                  onClick={() => console.log(record)}
-                />
+                <Button>
+                  <Link to={`${ROUTES.ATTEMPT_DETAILS.replace(':examId', examId.toString())}/${record.attemptId}`}>
+                    <FileSearchOutlined />
+                  </Link>
+                </Button>
               </div>
             )}
           />
