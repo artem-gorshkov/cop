@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import ru.mil.cop.attempt.dto.AttemptFullInfoDto;
 import ru.mil.cop.attempt.dto.AttemptSubmissionDto;
 import ru.mil.cop.auth.model.User;
 import ru.mil.cop.auth.repository.UserRepository;
@@ -21,6 +22,13 @@ public class AttemptService {
     private final UserRepository userRepository;
     private final AttemptRepository attemptRepository;
     private final ExamRepository examRepository;
+
+    public AttemptFullInfoDto getAttemptFullInfo(Integer attemptId) {
+        AttemptEntity attempt = findAttempt(attemptId);
+        return new AttemptFullInfoDto(
+                attempt.createAttemptInfoDto(),
+                attempt.getExam());
+    }
 
     public AttemptEntity findAttempt(Integer attemptId) {
         return attemptRepository.findById(attemptId)

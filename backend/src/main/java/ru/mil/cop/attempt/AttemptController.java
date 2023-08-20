@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import ru.mil.cop.attempt.dto.AttemptFullInfoDto;
 import ru.mil.cop.attempt.dto.AttemptIdDto;
 import ru.mil.cop.attempt.dto.AttemptInfoDto;
 import ru.mil.cop.attempt.dto.AttemptSubmissionDto;
@@ -26,8 +27,8 @@ public class AttemptController {
     private final ExamRepository examRepository;
 
     @GetMapping("/{attemptId}")
-    public AttemptInfoDto getAttempt(@PathVariable Integer attemptId) {
-        return attemptService.findAttempt(attemptId).createAttemptInfoDto();
+    public AttemptFullInfoDto getAttemptFullInfo(@PathVariable Integer attemptId) {
+        return attemptService.getAttemptFullInfo(attemptId);
     }
 
     @DeleteMapping("/{attemptId}")
