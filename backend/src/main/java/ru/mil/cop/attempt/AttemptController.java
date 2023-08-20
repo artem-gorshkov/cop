@@ -38,8 +38,8 @@ public class AttemptController {
 
     @PostMapping("/check")
     public AttemptIdDto initTest(@RequestBody CreateAttemptDto createAttemptDto) {
-        Integer userId = attemptService.getUserId(createAttemptDto.getName().toLowerCase(), createAttemptDto.getSurname().toLowerCase(),
-                createAttemptDto.getPatronymic().toLowerCase(), createAttemptDto.getGroupNumber().toLowerCase());
+        Integer userId = attemptService.getUserId(createAttemptDto.getName(), createAttemptDto.getSurname(),
+                createAttemptDto.getPatronymic(), createAttemptDto.getGroupNumber());
 
         if (!examRepository.existsById(createAttemptDto.getExamId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Теста с id: " + createAttemptDto.getExamId() + " не существует");
