@@ -4,7 +4,7 @@ export const EMPTY_EXAM_DETAIL: Exam = {
   name: '',
   questions: [{
     text: '',
-    answers: [{ text: '', isRightAnswer: false }],
+    answers: [{ text: '', isSelected: false }],
   }],
 }
 

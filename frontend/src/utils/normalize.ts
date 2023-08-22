@@ -11,7 +11,7 @@ export function normalizeExamData(data: Exam): ExamPayload {
         (result, currentValue, currentIndex) => {
           const index = currentIndex + 1;
           result.answers[index] = currentValue.text;
-          if (currentValue.isRightAnswer) result.rightAnswer.push(index);
+          if (currentValue.isSelected) result.rightAnswer.push(index);
           return result;
         }, { answers: {}, rightAnswer: [] });
       return { answers, rightAnswer, text: question.text }
@@ -29,7 +29,7 @@ export function normalizeExamPayload({ data, getAnswerSelection }: {
       text: question.text,
       answers: Object.values(question.answers).map((value, index) => ({
         text: value,
-        isRightAnswer: !!(getAnswerSelection && getAnswerSelection(questionIndex)?.some(currentIndex => currentIndex === index + 1))
+        isSelected: !!(getAnswerSelection && getAnswerSelection(questionIndex)?.some(currentIndex => currentIndex === index + 1))
       })),
       rightAnswer: question.rightAnswer,
     })),
@@ -41,7 +41,7 @@ export function normalizeAnswers(data: Exam): AnswerPayload {
     answers: data.questions?.map(question => {
       return question.answers.reduce<number[]>(
         (result, currentValue, currentIndex) => {
-          if (currentValue.isRightAnswer) result.push(currentIndex + 1);
+          if (currentValue.isSelected) result.push(currentIndex + 1);
           return result;
         }, []);
     }),

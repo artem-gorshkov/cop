@@ -85,7 +85,7 @@ export default function AttemptDetails() {
               initialValues={normalizedDetails}
               isSelectable={false}
               isDisplayingTitle={false}
-              isShowingRightAnswers
+              userAnswers={attemptDetails.attempt.userAnswers}
             />
           </>
         )}
