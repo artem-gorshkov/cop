@@ -62,7 +62,12 @@ export default function ExamPass() {
         {isFetchingDetails || !normalizedDetails ? (
           <Loader />
         ) : (
-          <ExamDetail initialValues={normalizedDetails} onSave={handleFinishExam} isSaving={isPassingExam} />
+          <ExamDetail
+            initialValues={normalizedDetails}
+            onSave={handleFinishExam}
+            isSaving={isPassingExam}
+            isDisplayingTitle
+          />
         )}
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">

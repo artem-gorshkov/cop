@@ -6,11 +6,10 @@ import { ROUTES } from 'constants/routes';
 import { useQuery } from "@tanstack/react-query";
 import Api from "services/api";
 import Loader from "components/Loader";
-import styles from './ExamResult.scss';
-import cx from "classnames";
 import { useMemo } from "react";
 import { getGrade } from "utils/grade";
 import type { AttemptDetails } from "types/attempt";
+import GradeDetails from "components/GradeDetails";
 
 export default function ExamResult() {
   const attemptId = Number(useParams().attemptId);
@@ -32,20 +31,7 @@ export default function ExamResult() {
         {isFetching || !attemptDetails ? (
           <Loader />
         ) : (
-          <div>
-            <div className={styles.section}>
-              <Typography.Text>Верных ответов:</Typography.Text>
-              <Typography.Text className={styles.result}>
-                {attemptDetails?.attempt?.rightCount}/{attemptDetails?.attempt?.totalCount}
-              </Typography.Text>
-            </div>
-            <div className={styles.section}>
-              <Typography.Text>Оценка за тест:</Typography.Text>
-              <Typography.Text className={cx(styles.result, styles.grade, grade && styles[grade.key.toLowerCase()])}>
-                {grade?.text}
-              </Typography.Text>
-            </div>
-          </div>
+          <GradeDetails attemptDetails={attemptDetails?.attempt}/>
         )}
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">

@@ -35,7 +35,7 @@ export default function ExamCreate() {
     onSuccess: handleCreateSuccess,
   });
 
-  function handleSave (data: Exam) {
+  function handleSave(data: Exam) {
     createExam(normalizeExamData(data));
   }
 
@@ -43,7 +43,13 @@ export default function ExamCreate() {
     <Layout hasSider className="fullHeight">
       <Layout.Content>
         <Typography.Title>Конструктор теста</Typography.Title>
-        <ExamDetail initialValues={EMPTY_EXAM_DETAIL} onSave={handleSave} isSaving={isCreatingExam}/>
+        <ExamDetail
+          initialValues={EMPTY_EXAM_DETAIL}
+          onSave={handleSave}
+          isSaving={isCreatingExam}
+          isEditable
+          isDisplayingTitle
+        />
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">
         <Button>

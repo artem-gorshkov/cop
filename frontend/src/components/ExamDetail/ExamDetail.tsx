@@ -12,13 +12,13 @@ import cx from "classnames";
 
 interface ExamDetailProps {
   initialValues: Exam,
-  onSave: (data: Exam) => void,
-  isSaving: boolean,
+  onSave?: (data: Exam) => void,
+  isSaving?: boolean,
+  isDisplayingTitle?: boolean,
+  isEditable?: boolean,
 }
 
-export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDetailProps) {
-  const { isEntitled } = useAppContext();
-
+export default function ExamDetail({ initialValues, onSave, isSaving, isDisplayingTitle, isEditable }: ExamDetailProps) {
   return (
     <Form
       name="exam"
@@ -27,17 +27,21 @@ export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDeta
       initialValues={initialValues}
       autoComplete="off"
     >
-      {isEntitled ? (
-        <Form.Item
-          name='name'
-          rules={[requiredRule]}
-          className={styles.examName}
-        >
-          <Input placeholder='Название теста' />
-        </Form.Item>
-      ) : (
-        <span className={cx(styles.examName, styles.readOnly)}>{initialValues.name}</span>
-      )}
+      {
+        isDisplayingTitle && (
+          isEditable ? (
+              <Form.Item
+                name='name'
+                rules={[requiredRule]}
+                className={styles.examName}
+              >
+                <Input placeholder='Название теста' />
+              </Form.Item>
+            ) : (
+              <span className={cx(styles.examName, styles.readOnly)}>{initialValues.name}</span>
+            )
+        )
+      }
       <Form.List name="questions">
         {(fields, { add, remove }) => (
           <>
@@ -50,7 +54,7 @@ export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDeta
                     <span>
                       Вопрос {index + 1}
                     </span>
-                    {isEntitled && (
+                    {isEditable && (
                       <Button disabled={fields.length === 1} icon={<CloseOutlined />} onClick={() => remove(name)} />
                     )}
                   </Row>
@@ -59,11 +63,12 @@ export default function ExamDetail({ initialValues, onSave, isSaving }: ExamDeta
                 <QuestionDetail
                   name={name}
                   restField={restField}
-                  {...(!isEntitled && { questionIndex: index, initialValues })}
+                  isEditable={isEditable}
+                  {...(!isEditable && { questionIndex: index, initialValues })}
                 />
               </Card>
             ))}
-            {isEntitled && (
+            {isEditable && (
               <Row className={styles.controls}>
                 <Form.Item>
                   <Button onClick={() => add(EMPTY_EXAM_DETAIL.questions?.[0])}>Добавить вопрос</Button>

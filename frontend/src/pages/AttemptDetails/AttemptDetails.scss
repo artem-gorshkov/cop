@@ -1,41 +1,16 @@
 @import "styles/mixins";
 
-.content {
-    flex-wrap: wrap;
-}
-
-.title, .side {
-    height: fit-content;
-    margin: 0;
-}
-
-.tableWrapper {
-    width: 100%;
-    padding-left: 0;
-}
-
-.grade {
-    @include grade;
-
-    height: 100%;
+.section {
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    flex-direction: row;
+    margin-top: 24px;
+    gap: 10px;
 
-.attemptList {
-    border: 1px solid black;
-
-    td {
-        height: 90px;
-
-        &:nth-child(6) {
-            padding: 0 !important;
-        }
+    :global .ant-typography {
+        font-size: 28px !important;
     }
 }
 
-.controlsWrapper {
-    display: flex;
-    justify-content: center;
+.result {
+    font-weight: bold !important;
 }
