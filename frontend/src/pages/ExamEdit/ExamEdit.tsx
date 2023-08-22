@@ -11,6 +11,7 @@ import ExamDetail from "components/ExamDetail";
 import type { Exam, ExamPayload } from "types/exam";
 import { normalizeExamData, normalizeExamPayload } from "utils/normalize";
 import Loader from "components/Loader";
+import { EMPTY_EXAM_DETAIL } from "constants/exam";
 
 export default function ExamEdit() {
   const { isEntitled } = useAppContext();
@@ -24,7 +25,10 @@ export default function ExamEdit() {
   });
 
   const normalizedDetails = useMemo<Exam | undefined>(
-    () => examDetails && normalizeExamPayload({data: examDetails, isSettingRightAnswers: true}),
+    () => examDetails && normalizeExamPayload({
+      data: examDetails,
+      getAnswerSelection: (index) => examDetails?.questions?.[index].rightAnswer
+    }),
     [examDetails]
   );
 
@@ -47,8 +51,8 @@ export default function ExamEdit() {
     onSuccess: handleEditSuccess,
   });
 
-  function handleSave (data: Exam) {
-    editExam({id: examId, data: normalizeExamData(data)});
+  function handleSave(data: Exam) {
+    editExam({ id: examId, data: normalizeExamData(data) });
   }
 
   return (
@@ -58,7 +62,12 @@ export default function ExamEdit() {
         {isFetchingDetails || !normalizedDetails ? (
           <Loader />
         ) : (
-          <ExamDetail initialValues={normalizedDetails} onSave={handleSave} isSaving={isEditingExam}/>
+          <ExamDetail
+            initialValues={normalizedDetails}
+            onSave={handleSave}
+            isSaving={isEditingExam}
+            isEditable
+          />
         )}
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">

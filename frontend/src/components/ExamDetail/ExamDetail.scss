@@ -12,11 +12,25 @@
         .ant-card-head {
             border-bottom: 1px solid black;
         }
+
+        .ant-checkbox-disabled.ant-checkbox-checked .ant-checkbox-inner {
+            background-color: $antd-checkbox-color;
+            border-color: $antd-checkbox-color;
+
+            &:after {
+                border-color: white;
+            }
+        }
     }
 
     .cardTitle {
         justify-content: space-between;
         align-items: center;
+    }
+
+    .rightAnswers {
+        display: block;
+        margin-top: 50px;
     }
 }
 

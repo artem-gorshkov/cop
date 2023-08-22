@@ -13,14 +13,21 @@ interface QuestionDetailProps {
   restField: { fieldKey?: number },
   initialValues?: Exam,
   questionIndex?: number,
+  isEditable?: boolean,
+  isSelectable?: boolean,
 }
 
-export default function QuestionDetail({ name, initialValues, restField, questionIndex }: QuestionDetailProps) {
-  const { isEntitled } = useAppContext();
-
+export default function QuestionDetail({
+  name,
+  initialValues,
+  restField,
+  questionIndex,
+  isEditable,
+  isSelectable
+}: QuestionDetailProps) {
   return (
     <>
-      {isEntitled ? (
+      {isEditable ? (
         <Form.Item
           {...restField}
           name={[name, 'text']}
@@ -41,9 +48,9 @@ export default function QuestionDetail({ name, initialValues, restField, questio
                   name={[answerName, 'isRightAnswer']}
                   valuePropName="checked"
                 >
-                  <Checkbox />
+                  <Checkbox disabled={!isSelectable} />
                 </Form.Item>
-                {isEntitled ? (
+                {isEditable ? (
                   <>
                     <Form.Item
                       {...restField}
@@ -64,7 +71,7 @@ export default function QuestionDetail({ name, initialValues, restField, questio
                 )}
               </Row>
             ))}
-            {isEntitled && (
+            {isEditable && (
               <Button className={styles.addButton} onClick={() => add(EMPTY_EXAM_DETAIL.questions?.[0].answers?.[0])}>
                 Добавить ответ
               </Button>

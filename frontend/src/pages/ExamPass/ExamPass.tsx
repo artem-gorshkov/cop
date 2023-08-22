@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Layout, notification, Typography } from 'antd';
+import { Button, Layout, Modal, notification, Typography } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Api from "services/api";
@@ -43,7 +43,16 @@ export default function ExamPass() {
   });
 
   function handleFinishExam(data: Exam) {
-    passExam({ attemptId, data: normalizeAnswers(data) });
+    Modal.warning({
+      title: 'Вы точно хотите завершить тест?',
+      okText: 'Да',
+      cancelText: 'Нет',
+      onOk: () => passExam({ attemptId, data: normalizeAnswers(data) }),
+      okButtonProps: {
+        loading: isPassingExam,
+      },
+      okCancel: true,
+    });
   }
 
   return (
@@ -53,7 +62,11 @@ export default function ExamPass() {
         {isFetchingDetails || !normalizedDetails ? (
           <Loader />
         ) : (
-          <ExamDetail initialValues={normalizedDetails} onSave={handleFinishExam} isSaving={isPassingExam} />
+          <ExamDetail
+            initialValues={normalizedDetails}
+            onSave={handleFinishExam}
+            isSaving={isPassingExam}
+          />
         )}
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">
