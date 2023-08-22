@@ -48,7 +48,6 @@ export default function ExamCreate() {
           onSave={handleSave}
           isSaving={isCreatingExam}
           isEditable
-          isDisplayingTitle
         />
       </Layout.Content>
       <Layout.Sider width={500} className="fullHeight">

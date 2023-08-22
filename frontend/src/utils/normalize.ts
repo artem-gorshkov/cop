@@ -30,7 +30,8 @@ export function normalizeExamPayload({ data, getAnswerSelection }: {
       answers: Object.values(question.answers).map((value, index) => ({
         text: value,
         isRightAnswer: !!(getAnswerSelection && getAnswerSelection(questionIndex)?.some(currentIndex => currentIndex === index + 1))
-      }))
+      })),
+      rightAnswer: question.rightAnswer,
     })),
   };
 }

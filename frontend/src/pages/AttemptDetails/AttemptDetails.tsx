@@ -81,7 +81,12 @@ export default function AttemptDetails() {
               </Typography.Text>
             </div>
             <GradeDetails attemptDetails={attemptDetails.attempt} />
-            <ExamDetail initialValues={normalizedDetails} />
+            <ExamDetail
+              initialValues={normalizedDetails}
+              isSelectable={false}
+              isDisplayingTitle={false}
+              isShowingRightAnswers
+            />
           </>
         )}
       </Layout.Content>

@@ -7,7 +7,6 @@ import { CloseOutlined } from "@ant-design/icons";
 import styles from './ExamDetail.scss';
 import { requiredRule } from "constants/rules";
 import { EMPTY_EXAM_DETAIL } from "constants/exam";
-import { useAppContext } from "contexts/AppContext";
 import cx from "classnames";
 
 interface ExamDetailProps {
@@ -16,9 +15,19 @@ interface ExamDetailProps {
   isSaving?: boolean,
   isDisplayingTitle?: boolean,
   isEditable?: boolean,
+  isSelectable?: boolean,
+  isShowingRightAnswers?: boolean,
 }
 
-export default function ExamDetail({ initialValues, onSave, isSaving, isDisplayingTitle, isEditable }: ExamDetailProps) {
+export default function ExamDetail({
+  initialValues,
+  onSave,
+  isSaving,
+  isDisplayingTitle = true,
+  isEditable = false,
+  isSelectable = true,
+  isShowingRightAnswers = false
+}: ExamDetailProps) {
   return (
     <Form
       name="exam"
@@ -30,16 +39,16 @@ export default function ExamDetail({ initialValues, onSave, isSaving, isDisplayi
       {
         isDisplayingTitle && (
           isEditable ? (
-              <Form.Item
-                name='name'
-                rules={[requiredRule]}
-                className={styles.examName}
-              >
-                <Input placeholder='Название теста' />
-              </Form.Item>
-            ) : (
-              <span className={cx(styles.examName, styles.readOnly)}>{initialValues.name}</span>
-            )
+            <Form.Item
+              name='name'
+              rules={[requiredRule]}
+              className={styles.examName}
+            >
+              <Input placeholder='Название теста' />
+            </Form.Item>
+          ) : (
+            <span className={cx(styles.examName, styles.readOnly)}>{initialValues.name}</span>
+          )
         )
       }
       <Form.List name="questions">
@@ -65,7 +74,13 @@ export default function ExamDetail({ initialValues, onSave, isSaving, isDisplayi
                   restField={restField}
                   isEditable={isEditable}
                   {...(!isEditable && { questionIndex: index, initialValues })}
+                  isSelectable={isSelectable}
                 />
+                {isShowingRightAnswers && (
+                  <span className={styles.rightAnswers}>
+                    Правильные ответы: {initialValues?.questions?.[index]?.rightAnswer?.join(', ')}
+                  </span>
+                )}
               </Card>
             ))}
             {isEditable && (

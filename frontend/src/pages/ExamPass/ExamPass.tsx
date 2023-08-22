@@ -66,7 +66,6 @@ export default function ExamPass() {
             initialValues={normalizedDetails}
             onSave={handleFinishExam}
             isSaving={isPassingExam}
-            isDisplayingTitle
           />
         )}
       </Layout.Content>

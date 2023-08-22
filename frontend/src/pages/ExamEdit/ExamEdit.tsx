@@ -67,7 +67,6 @@ export default function ExamEdit() {
             onSave={handleSave}
             isSaving={isEditingExam}
             isEditable
-            isDisplayingTitle
           />
         )}
       </Layout.Content>

@@ -14,9 +14,17 @@ interface QuestionDetailProps {
   initialValues?: Exam,
   questionIndex?: number,
   isEditable?: boolean,
+  isSelectable?: boolean,
 }
 
-export default function QuestionDetail({ name, initialValues, restField, questionIndex, isEditable }: QuestionDetailProps) {
+export default function QuestionDetail({
+  name,
+  initialValues,
+  restField,
+  questionIndex,
+  isEditable,
+  isSelectable
+}: QuestionDetailProps) {
   return (
     <>
       {isEditable ? (
@@ -40,7 +48,7 @@ export default function QuestionDetail({ name, initialValues, restField, questio
                   name={[answerName, 'isRightAnswer']}
                   valuePropName="checked"
                 >
-                  <Checkbox />
+                  <Checkbox disabled={!isSelectable} />
                 </Form.Item>
                 {isEditable ? (
                   <>
