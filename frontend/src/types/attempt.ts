@@ -6,4 +6,5 @@ export interface AttemptDetails extends UserCredentials{
   totalCount: number;
   attemptStatus: 'START' | 'FINISH';
   attemptId?: number;
+  userAnswers?: number[][];
 }

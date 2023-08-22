@@ -19,14 +19,17 @@ export function normalizeExamData(data: Exam): ExamPayload {
   }
 }
 
-export function normalizeExamPayload({ data, isSettingRightAnswers = false }: { data: ExamPayload, isSettingRightAnswers?: boolean }): Exam {
+export function normalizeExamPayload({ data, getAnswerSelection }: {
+  data: ExamPayload,
+  getAnswerSelection?: (index: number) => number[] | undefined
+}): Exam {
   return {
     ...data,
-    questions: data.questions?.map(question => ({
+    questions: data.questions?.map((question, questionIndex) => ({
       text: question.text,
       answers: Object.values(question.answers).map((value, index) => ({
         text: value,
-        isRightAnswer: isSettingRightAnswers && question.rightAnswer.some(currentIndex => currentIndex === index + 1)
+        isRightAnswer: !!(getAnswerSelection && getAnswerSelection(questionIndex)?.some(currentIndex => currentIndex === index + 1))
       }))
     })),
   };

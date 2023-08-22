@@ -29,7 +29,10 @@ export default function AttemptDetails() {
   });
 
   const normalizedDetails = useMemo<Exam | undefined>(
-    () => attemptDetails && normalizeExamPayload({ data: attemptDetails.exam, isSettingRightAnswers: true }),
+    () => attemptDetails && normalizeExamPayload({
+      data: attemptDetails.exam,
+      getAnswerSelection: (index) => attemptDetails?.attempt?.userAnswers?.[index]
+    }),
     [attemptDetails]
   );
 
