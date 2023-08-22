@@ -1,6 +1,6 @@
 export interface Answer {
   text: string;
-  isRightAnswer: boolean;
+  isSelected: boolean;
 }
 
 export interface Question {

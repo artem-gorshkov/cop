@@ -45,7 +45,7 @@ export default function QuestionDetail({
               <Row key={key} className={styles.answerWrapper}>
                 <Form.Item
                   help={false}
-                  name={[answerName, 'isRightAnswer']}
+                  name={[answerName, 'isSelected']}
                   valuePropName="checked"
                 >
                   <Checkbox disabled={!isSelectable} />

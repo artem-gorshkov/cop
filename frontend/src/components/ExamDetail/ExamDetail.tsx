@@ -3,7 +3,7 @@
 import { Button, Card, Form, Input, Row } from "antd";
 import { Exam } from "types/exam";
 import QuestionDetail from "components/ExamDetail/QuestionDetail";
-import { CloseOutlined } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import styles from './ExamDetail.scss';
 import { requiredRule } from "constants/rules";
 import { EMPTY_EXAM_DETAIL } from "constants/exam";
@@ -16,7 +16,7 @@ interface ExamDetailProps {
   isDisplayingTitle?: boolean,
   isEditable?: boolean,
   isSelectable?: boolean,
-  isShowingRightAnswers?: boolean,
+  userAnswers?: number[][],
 }
 
 export default function ExamDetail({
@@ -26,7 +26,7 @@ export default function ExamDetail({
   isDisplayingTitle = true,
   isEditable = false,
   isSelectable = true,
-  isShowingRightAnswers = false
+  userAnswers = []
 }: ExamDetailProps) {
   return (
     <Form
@@ -54,35 +54,49 @@ export default function ExamDetail({
       <Form.List name="questions">
         {(fields, { add, remove }) => (
           <>
-            {fields.map(({ key, name, ...restField }, index) => (
-              <Card
-                key={key}
-                className={styles.card}
-                title={
-                  <Row className={styles.cardTitle}>
-                    <span>
-                      Вопрос {index + 1}
+            {fields.map(({ key, name, ...restField }, index) => {
+              const rightAnswer = initialValues?.questions?.[index]?.rightAnswer;
+              const isCorrect = JSON.stringify(rightAnswer) === JSON.stringify(userAnswers?.[index]);
+
+              return (
+                <Card
+                  key={key}
+                  className={styles.card}
+                  title={
+                    <Row className={styles.cardTitle}>
+                      <Row className={styles.questionNumber}>
+                        {!!userAnswers?.length && (
+                          isCorrect ? (
+                            <CheckOutlined className={styles.check} />
+                          ) : (
+                            <CloseOutlined className={styles.close} />
+                          )
+                        )}
+                        <span>
+                          Вопрос {index + 1}
+                        </span>
+                      </Row>
+                      {isEditable && (
+                        <Button disabled={fields.length === 1} icon={<CloseOutlined />} onClick={() => remove(name)} />
+                      )}
+                    </Row>
+                  }
+                >
+                  <QuestionDetail
+                    name={name}
+                    restField={restField}
+                    isEditable={isEditable}
+                    isSelectable={isSelectable}
+                    {...(!isEditable && { questionIndex: index, initialValues })}
+                  />
+                  {!!userAnswers?.length && !isCorrect && (
+                    <span className={styles.rightAnswers}>
+                      Правильные ответы: {initialValues?.questions?.[index]?.rightAnswer?.join(', ')}
                     </span>
-                    {isEditable && (
-                      <Button disabled={fields.length === 1} icon={<CloseOutlined />} onClick={() => remove(name)} />
-                    )}
-                  </Row>
-                }
-              >
-                <QuestionDetail
-                  name={name}
-                  restField={restField}
-                  isEditable={isEditable}
-                  {...(!isEditable && { questionIndex: index, initialValues })}
-                  isSelectable={isSelectable}
-                />
-                {isShowingRightAnswers && (
-                  <span className={styles.rightAnswers}>
-                    Правильные ответы: {initialValues?.questions?.[index]?.rightAnswer?.join(', ')}
-                  </span>
-                )}
-              </Card>
-            ))}
+                  )}
+                </Card>
+              );
+            })}
             {isEditable && (
               <Row className={styles.controls}>
                 <Form.Item>
