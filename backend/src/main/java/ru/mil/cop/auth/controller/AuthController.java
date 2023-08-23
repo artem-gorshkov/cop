@@ -14,8 +14,8 @@ import ru.mil.cop.auth.service.AuthService;
 @RequestMapping("/api")
 public class AuthController {
 
-    private AuthService authService;
-    private JwtProvider jwtProvider;
+    private final AuthService authService;
+    private final JwtProvider jwtProvider;
 
     @Autowired
     public AuthController(AuthService authService, JwtProvider jwtProvider) {
