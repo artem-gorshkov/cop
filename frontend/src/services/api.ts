@@ -3,11 +3,24 @@ import type { AnswerPayload, ExamPayload } from "types/exam";
 import type { AdminCredentials, UserCredentials } from "types/credentials";
 import { STORAGE_KEYS } from "constants/storage";
 import type { AttemptDetails } from "types/attempt";
+import { ROUTES } from "constants/routes";
+
+function removeToken () {
+  localStorage.removeItem(STORAGE_KEYS.TOKEN);
+  delete axios.defaults.headers.Authorization;
+}
 
 abstract class Api {
   public static init(): void {
     axios.defaults.withCredentials = true;
     axios.defaults.headers.Authorization = localStorage.getItem(STORAGE_KEYS.TOKEN);
+    axios.interceptors.response.use((response) => response, (error) => {
+      if (error?.response?.status === 500) {
+        removeToken();
+        window.location.href = ROUTES.EXAM_LIST;
+      }
+      return Promise.reject(error);
+    });
   }
 
   public static async getExamNames(): Promise<ExamPayload[]> {
@@ -41,8 +54,7 @@ abstract class Api {
 
   public static async adminLogout() {
     await axios.post('/api/logout');
-    localStorage.removeItem(STORAGE_KEYS.TOKEN);
-    delete axios.defaults.headers.Authorization;
+    removeToken();
   }
 
   public static async createExam(data: ExamPayload) {
@@ -67,6 +79,10 @@ abstract class Api {
 
   public static async getAttemptHistory(examId: number) {
     return (await axios.get<{name: string, attempts: AttemptDetails[]}>(`/api/exam/attempts/${examId}`))?.data;
+  }
+
+  public static async deleteAttempt(id?: number) {
+    return axios.delete(`/api/attempt/${id}`);
   }
 }
 

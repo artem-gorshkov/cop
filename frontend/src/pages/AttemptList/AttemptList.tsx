@@ -1,8 +1,8 @@
 'use client';
 
-import { Button, Layout, Table, Typography } from 'antd';
+import { Button, Layout, Modal, Table, Typography } from 'antd';
 import { Link, useParams } from 'react-router-dom';
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Api from "services/api";
 import { CloseOutlined, FileSearchOutlined } from "@ant-design/icons";
 import type { AttemptDetails } from "types/attempt";
@@ -17,7 +17,11 @@ import { ATTEMPT_STATUSES } from "constants/exam";
 export default function AttemptList() {
   const examId = Number(useParams().examId);
 
-  const { data: attemptHistory, isFetching: isFetchingHistory } = useQuery<{
+  const {
+    data: attemptHistory,
+    isFetching: isFetchingHistory,
+    refetch: refetchAttemptHistory,
+  } = useQuery<{
     name: string,
     attempts: AttemptDetails[]
   }>({
@@ -43,6 +47,29 @@ export default function AttemptList() {
     }, []
   );
 
+  const { mutateAsync: deleteAttempt, isLoading: isDeleting } = useMutation({
+    mutationKey: ['delete'],
+    mutationFn: Api.deleteAttempt,
+  });
+
+  async function handleDelete(attemptId?: number) {
+    await deleteAttempt(attemptId);
+    await refetchAttemptHistory();
+  }
+
+  function showModal(attemptId?: number) {
+    Modal.warning({
+      title: 'Обнулить попытку?',
+      okText: 'Да',
+      cancelText: 'Нет',
+      onOk: () => handleDelete(attemptId),
+      okButtonProps: {
+        loading: isDeleting,
+      },
+      okCancel: true,
+    });
+  }
+
   return (
     <Layout hasSider className={cx(styles.content, "fullHeight")}>
       <Layout.Content className={styles.title}>
@@ -64,7 +91,7 @@ export default function AttemptList() {
           dataSource={attemptHistory?.attempts}
           pagination={false}
           loading={{ spinning: isFetchingHistory, indicator: <Loader /> }}
-          scroll={{y: 360}}
+          scroll={{ y: 360 }}
         >
           <Table.Column
             title="Фамилия"
@@ -124,7 +151,7 @@ export default function AttemptList() {
               <div className={styles.controlsWrapper} title='Удалить попытку'>
                 <Button
                   icon={<CloseOutlined />}
-                  onClick={() => console.log(record)}
+                  onClick={() => showModal(record.attemptId)}
                 />
               </div>
             )}
