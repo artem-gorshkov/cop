@@ -13,7 +13,7 @@ export default function AppWrapper() {
           <Outlet />
         </Layout.Content>
         <Layout.Footer className={styles.footer}>
-          Все права принадлежат Кафедре Ракетного Вооружения Подводных Лодок, 2023г.
+          Все права принадлежат кафедре Ракетного вооружения подводных лодок, 2023г.
         </Layout.Footer>
       </Layout>
     </Suspense>
