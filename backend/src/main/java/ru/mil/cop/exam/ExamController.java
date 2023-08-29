@@ -26,6 +26,7 @@ public class ExamController {
     public List<ExamNameDto> getExamNames() {
         return StreamSupport.stream(examRepository.findAll().spliterator(), false)
                 .map(it -> new ExamNameDto(it.getId(), it.getName()))
+                .sorted(Comparator.comparing(ExamNameDto::getName))
                 .collect(Collectors.toList());
     }
 
