@@ -10,6 +10,7 @@ import type { Exam, ExamPayload } from "types/exam";
 import { normalizeAnswers, normalizeExamPayload } from "utils/normalize";
 import Loader from "components/Loader";
 import { ROUTES } from "constants/routes";
+import { useExamHeader } from "hooks/useExamHeader";
 
 export default function ExamPass() {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ export default function ExamPass() {
     queryKey: ['getExamDetails', examId],
     queryFn: () => Api.getExamDetails(examId),
   });
+
+  useExamHeader({ examName: examDetails?.name, isFetchingName: false });
 
   const normalizedDetails = useMemo<Exam | undefined>(
     () => examDetails && normalizeExamPayload({ data: examDetails }),
@@ -63,6 +66,7 @@ export default function ExamPass() {
           <Loader />
         ) : (
           <ExamDetail
+            isDisplayingTitle={false}
             initialValues={normalizedDetails}
             onSave={handleFinishExam}
             isSaving={isPassingExam}

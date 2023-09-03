@@ -8,24 +8,27 @@ import styles from './Auth.scss';
 import { useMutation } from "@tanstack/react-query";
 import Api from "services/api";
 import type { UserCredentials } from "types/credentials";
+import { useExamHeader } from "hooks/useExamHeader";
+import { AxiosError } from "axios";
 
 export default function Auth() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const examId = Number(searchParams.get('examId'));
+  useExamHeader({ examId });
 
   function handleAuthSuccess(attemptId: number) {
     navigate(`${ROUTES.PASS.replace(':examId', examId.toString())}/${attemptId}`);
   }
 
-  function handleAuthError(error: Error) {
-    notification.error({ message: error.message });
+  function handleAuthError(error: AxiosError<{message: string}>) {
+    notification.error({ message: error?.response?.data?.message });
   }
 
   const { mutate: checkAttempts, isLoading: isCheckingAttempts } = useMutation({
     mutationKey: ['auth'],
-    mutationFn: (data: UserCredentials) => Api.checkAttempts({examId, data}),
+    mutationFn: (data: UserCredentials) => Api.checkAttempts({ examId, data }),
     onError: handleAuthError,
     onSuccess: handleAuthSuccess,
   });
