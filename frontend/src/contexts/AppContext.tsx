@@ -7,13 +7,17 @@ import Api from "services/api";
 import { useMutation } from "@tanstack/react-query";
 
 export interface ContextValues {
+  headerText: string;
   isEntitled: boolean;
   setIsEntitled: (flag: boolean) => void;
+  setHeaderText: (value: string) => void;
 }
 
-const initialState: ContextValues = {
+export const initialState: ContextValues = {
+  headerText: "Тестирование полученных знаний",
   isEntitled: false,
   setIsEntitled: () => undefined,
+  setHeaderText: () => undefined,
 };
 
 const AppContext = createContext<ContextValues>(initialState);
@@ -23,6 +27,7 @@ const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
 
 export function AppContextProvider({ children }: { children: ReactNode }) {
   const [isEntitled, setIsEntitled] = useState(initialState.isEntitled);
+  const [headerText, setHeaderText] = useState(initialState.headerText);
 
   function handleVerificationSuccess() {
     setIsEntitled(true);
@@ -47,9 +52,11 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
   const contextValue = useMemo(
     () => ({
       isEntitled,
-      setIsEntitled
+      setIsEntitled,
+      headerText,
+      setHeaderText
     }),
-    [isEntitled]
+    [isEntitled, headerText]
   );
 
   return isSuccess || isError || !token ? (
