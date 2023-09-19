@@ -78,7 +78,7 @@ module.exports = (env, argv) => {
       publicPath: isLocal ? '/' : PROJECT_PATH,
     },
     devServer: {
-      open: ['/'],
+      open: ['/test'],
       historyApiFallback: true,
       proxy: [
         {

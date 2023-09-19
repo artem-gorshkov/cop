@@ -8,7 +8,24 @@
     height: $header-size;
     background: $header-color;
 
-    @include ellipsis;
+    &.adminHeader {
+        background: $admin-header-color;
+    }
+
+    .logoWrapper {
+        height: 100%;
+        display: flex;
+        gap: 10px;
+
+        :global .ant-image {
+            min-width: 100px;
+            display: block;
+        }
+
+        span {
+            @include ellipsis;
+        }
+    }
 }
 
 .footer {

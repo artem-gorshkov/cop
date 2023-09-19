@@ -1,6 +1,6 @@
 import { ThemeConfig } from 'antd';
 
-export const antdTheme: ThemeConfig = {
+export const ANTD_THEME: ThemeConfig = {
   token: {
     fontFamily: 'Roboto, sans-serif',
     fontSize: 28,
