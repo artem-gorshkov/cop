@@ -2,10 +2,11 @@ import { App, ConfigProvider as AntdConfigProvider } from 'antd';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { antdTheme } from 'styles/antd-theme';
+import { ANTD_THEME } from 'styles/antdTheme';
 import Router from './Router';
 import 'styles/global.scss';
 import { AppContextProvider } from "contexts/AppContext";
+import { BASE_PATH } from "constants/routes";
 
 const rootNode = document.getElementById('root');
 
@@ -25,8 +26,8 @@ if (rootNode) {
   createRoot(rootNode).render(
     <QueryClientProvider client={queryClient}>
       <AppContextProvider>
-        <BrowserRouter>
-          <AntdConfigProvider theme={antdTheme}>
+        <BrowserRouter basename={BASE_PATH}>
+          <AntdConfigProvider theme={ANTD_THEME}>
             <App>
               <Router />
             </App>

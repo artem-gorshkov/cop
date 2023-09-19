@@ -1,17 +1,24 @@
 import { Layout } from 'antd';
 import { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Loader from 'components/Loader';
 import styles from './AppWrapper.scss';
 import { useAppContext } from "contexts/AppContext";
+import { ROUTES } from "constants/routes";
+import cx from "classnames";
 
 export default function AppWrapper() {
-  const { headerText } = useAppContext();
+  const { headerText, isEntitled } = useAppContext();
+
+  const {pathname} = useLocation();
+  const isOnAdminPage = isEntitled || pathname === ROUTES.ADMIN_AUTH;
 
   return (
     <Suspense fallback={<Loader isCentered />}>
       <Layout>
-        <Layout.Header className={styles.header} title={headerText}>{headerText}</Layout.Header>
+        <Layout.Header className={cx(styles.header, isOnAdminPage && styles.adminHeader)} title={headerText}>
+          {headerText}
+        </Layout.Header>
         <Layout.Content className={styles.content}>
           <Outlet />
         </Layout.Content>

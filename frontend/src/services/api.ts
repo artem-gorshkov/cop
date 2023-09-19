@@ -3,7 +3,7 @@ import type { AnswerPayload, ExamPayload } from "types/exam";
 import type { AdminCredentials, UserCredentials } from "types/credentials";
 import { STORAGE_KEYS } from "constants/storage";
 import type { AttemptDetails } from "types/attempt";
-import { ROUTES } from "constants/routes";
+import { BASE_PATH, ROUTES } from "constants/routes";
 
 function removeToken () {
   localStorage.removeItem(STORAGE_KEYS.TOKEN);
@@ -17,7 +17,7 @@ abstract class Api {
     axios.interceptors.response.use((response) => response, (error) => {
       if (error?.response?.status === 500) {
         removeToken();
-        window.location.href = ROUTES.EXAM_LIST;
+        window.location.href = `${BASE_PATH}${ROUTES.EXAM_LIST}`;
       }
       return Promise.reject(error);
     });

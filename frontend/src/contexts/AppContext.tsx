@@ -14,7 +14,7 @@ export interface ContextValues {
 }
 
 export const initialState: ContextValues = {
-  headerText: "Тестирование полученных знаний",
+  headerText: "Тест",
   isEntitled: false,
   setIsEntitled: () => undefined,
   setHeaderText: () => undefined,

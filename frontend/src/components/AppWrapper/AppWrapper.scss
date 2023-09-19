@@ -9,6 +9,10 @@
     background: $header-color;
 
     @include ellipsis;
+
+    &.adminHeader {
+        background: $admin-header-color;
+    }
 }
 
 .footer {
