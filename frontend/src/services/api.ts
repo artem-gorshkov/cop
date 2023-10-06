@@ -4,8 +4,11 @@ import type { AdminCredentials, UserCredentials } from "types/credentials";
 import { STORAGE_KEYS } from "constants/storage";
 import type { AttemptDetails } from "types/attempt";
 import { BASE_PATH, ROUTES } from "constants/routes";
+import FileSaver from 'file-saver';
+import dayjs from 'dayjs';
+import { FILE_DOWNLOAD_DATE_FORMAT } from "constants/date";
 
-function removeToken () {
+function removeToken() {
   localStorage.removeItem(STORAGE_KEYS.TOKEN);
   delete axios.defaults.headers.Authorization;
 }
@@ -74,11 +77,29 @@ abstract class Api {
   }
 
   public static async getAttemptDetails(attemptId: number) {
-    return (await axios.get<{attempt: AttemptDetails, exam: ExamPayload}>(`/test/api/attempt/${attemptId}`))?.data;
+    return (await axios.get<{ attempt: AttemptDetails, exam: ExamPayload }>(`/test/api/attempt/${attemptId}`))?.data;
   }
 
-  public static async getAttemptHistory(examId: number) {
-    return (await axios.get<{name: string, attempts: AttemptDetails[]}>(`/test/api/exam/attempts/${examId}`))?.data;
+  public static async getAttemptHistory(examId: number, groupNumber: string) {
+    return (await axios.get<{
+      name: string,
+      attempts: AttemptDetails[]
+    }>(`/test/api/exam/attempts/${examId}`, { params: { groupNumber: groupNumber || null } }))?.data;
+  }
+
+  public static async printAttemptHistory({examId, groupNumber}: {examId: number, groupNumber: string}) {
+    const response = await axios.post(
+      `/test/api/exam/print`,
+      { examId: examId, groupNumber: groupNumber || null },
+      { responseType: 'blob' }
+    );
+
+    if (!response?.data) return Promise.reject({message: 'Не удалось распечатать документ'});
+
+    const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8' });
+    const date = dayjs().format(FILE_DOWNLOAD_DATE_FORMAT);
+    const fileName = `Attempts_${examId}_${groupNumber}_${date}.csv`;
+    FileSaver.saveAs(blob, fileName);
   }
 
   public static async deleteAttempt(id?: number) {

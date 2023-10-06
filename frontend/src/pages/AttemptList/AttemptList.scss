@@ -14,28 +14,20 @@
     padding-left: 0;
 }
 
-.grade {
-    @include grade;
-
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.attemptList {
+.tableControls {
     border: 1px solid black;
+    border-bottom: none;
+    background: pink;
+    gap: 20px;
+    padding: 20px;
+    justify-content: flex-end;
 
-    td {
-        height: 90px;
-
-        &:nth-child(7) {
-            padding: 0 !important;
-        }
+    span {
+        line-height: 50px;
     }
-}
 
-.controlsWrapper {
-    display: flex;
-    justify-content: center;
+    input {
+        max-width: 200px;
+        border: 1px solid black;
+    }
 }
