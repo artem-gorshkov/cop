@@ -38,13 +38,21 @@ public class ExamController {
     }
 
     @GetMapping("/api/exam/attempts/{examId}")
-    public ExamResultDto getExamAttempts(@PathVariable Integer examId) {
+    public ExamResultDto getExamAttempts(@PathVariable Integer examId, @RequestParam(name = "groupNumber", required = false) String groupNumber) {
         ExamEntity examEntity = getExamEntity(examId);
 
-        List<AttemptInfoDto> attempts = attemptRepository.findByExamId(examId).stream()
-                .sorted(Comparator.comparingInt(AttemptEntity::getId).reversed())
-                .map(AttemptEntity::createAttemptInfoDto)
-                .collect(Collectors.toList());
+        List<AttemptInfoDto> attempts;
+        if (groupNumber != null) {
+            attempts = attemptRepository.findByExamIdAndUserGroupNumber(examId, groupNumber).stream()
+                    .sorted(Comparator.comparingInt(AttemptEntity::getId).reversed())
+                    .map(AttemptEntity::createAttemptInfoDto)
+                    .collect(Collectors.toList());
+        } else {
+            attempts = attemptRepository.findByExamId(examId).stream()
+                    .sorted(Comparator.comparingInt(AttemptEntity::getId).reversed())
+                    .map(AttemptEntity::createAttemptInfoDto)
+                    .collect(Collectors.toList());
+        }
 
         return new ExamResultDto(examEntity.getName(), attempts);
     }
