@@ -1,11 +1,11 @@
 package ru.mil.cop.exam;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.mil.cop.attempt.AttemptEntity;
 import ru.mil.cop.attempt.AttemptRepository;
@@ -13,6 +13,7 @@ import ru.mil.cop.attempt.dto.AttemptInfoDto;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -21,6 +22,7 @@ import java.util.stream.StreamSupport;
 public class ExamController {
     public final ExamRepository examRepository;
     private final AttemptRepository attemptRepository;
+    private final ExamService examService;
 
     @GetMapping("/api/exam/names")
     public List<ExamNameDto> getExamNames() {
@@ -55,6 +57,30 @@ public class ExamController {
         }
 
         return new ExamResultDto(examEntity.getName(), attempts);
+    }
+
+    @PostMapping("/api/exam/print")
+    public ResponseEntity<byte[]> generateCsvFile(@RequestBody Map<String, Object> requestBody) {
+        Integer examId = (Integer) requestBody.get("examId");
+        String groupNumber = (String) requestBody.get("groupNumber");
+
+        List<AttemptInfoDto> attempts = attemptRepository.findByExamIdAndUserGroupNumber(examId, groupNumber).stream()
+                .sorted(Comparator.comparingInt(AttemptEntity::getId).reversed())
+                .map(AttemptEntity::createAttemptInfoDto)
+                .collect(Collectors.toList());
+
+        if (!attempts.isEmpty()) {
+            byte[] csvFileBytes = examService.generateCsvBytes(attempts);
+
+            if (csvFileBytes != null) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.parseMediaType("application/csv"));
+                headers.setContentDispositionFormData("attachment", "exam_results.csv");
+                return new ResponseEntity<>(csvFileBytes, headers, HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     private ExamEntity getExamEntity(Integer examId) {
