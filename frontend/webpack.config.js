@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
-const PROJECT_PATH = '/';
+const PROJECT_PATH = '/test/';
 
 const DEFAULT_WEBPACK_PROPS = {
   changeOrigin: true,
