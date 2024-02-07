@@ -32,7 +32,7 @@ public class ExamController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/api/exam/{examId}/withoutAnswers")
+    @GetMapping("/api/exam/{examId}")
     public ExamEntity getExamWithoutAnswers(@PathVariable Integer examId) {
         ExamEntity examEntity = getExamEntity(examId);
         examEntity.getQuestions().forEach(it -> it.setRightAnswer(null));
@@ -59,6 +59,7 @@ public class ExamController {
         return new ExamResultDto(examEntity.getName(), attempts);
     }
 
+
     @PostMapping("/api/exam/print")
     public ResponseEntity<byte[]> generateCsvFile(@RequestBody Map<String, Object> requestBody) {
         Integer examId = (Integer) requestBody.get("examId");
@@ -81,6 +82,11 @@ public class ExamController {
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/api/exam/{examId}")
+    public void removeTest(@PathVariable String examId){
+        examService.deleteExamById(Integer.parseInt(examId));
     }
 
     private ExamEntity getExamEntity(Integer examId) {

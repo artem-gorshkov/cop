@@ -2,6 +2,7 @@ package ru.mil.cop.exam;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.mil.cop.attempt.AttemptRepository;
 import ru.mil.cop.attempt.dto.AttemptInfoDto;
 
 import java.io.ByteArrayOutputStream;
@@ -11,10 +12,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import com.opencsv.CSVWriter;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class ExamService {
 
+    private final ExamRepository examRepository;
+    private final AttemptRepository attemptRepository;
     public byte[] generateCsvBytes(List<AttemptInfoDto> attempts) {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -43,4 +48,10 @@ public class ExamService {
         int res = (total * 100) / right;
         return res > 75 ? "Отлично" : res > 50 ? "Хорошо" : res > 25 ? "Удовлетворительно" : "Неудовлетворительно";
     }
+    @Transactional
+    public void deleteExamById(Integer examId) {
+        attemptRepository.deleteAllByExamId(examId);
+        examRepository.deleteById(examId);
+    }
+
 }

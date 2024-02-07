@@ -1,13 +1,9 @@
 package ru.mil.cop.attempt;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.mil.cop.attempt.AttemptEntity;
-import ru.mil.cop.attempt.AttemptStatus;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface AttemptRepository extends CrudRepository<AttemptEntity, Integer> {
@@ -17,5 +13,7 @@ public interface AttemptRepository extends CrudRepository<AttemptEntity, Integer
     List<AttemptEntity> findByExamId(Integer examId);
 
     List<AttemptEntity> findByExamIdAndUserGroupNumber(Integer examId, String groupNumber);
+
+    void deleteAllByExamId(Integer id);
 }
 
